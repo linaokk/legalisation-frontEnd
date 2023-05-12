@@ -7,7 +7,7 @@ import { SignUpComponent } from "./pages/sign-up/sign-up.component";
 import { HomeComponent } from "./pages/home/home.component";
 import { ROOT_SIGNUP } from "./constant/root.constant";
 
-const router = createBrowserRouter([
+const routers = createBrowserRouter([
   { path: ROOT_SIGNUP, element: <SignUpComponent /> },
   {path:"/", element:<HomeComponent/>}
 ]);
@@ -18,7 +18,7 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <RouterProvider  router={router} />
+    <RouterProvider  router={routers} />
   </React.StrictMode>
 );
 
