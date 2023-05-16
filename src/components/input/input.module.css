@@ -1,0 +1,13 @@
+.labelError {
+  color: red;
+}
+
+.inputElement {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.inputElement > input {
+  height: 30px;
+}

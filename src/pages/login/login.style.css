@@ -1,0 +1,33 @@
+.login-container {
+  background-color: azure;
+  border: 1px solid;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.login-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.login-inputs > input {
+  width: 20vw;
+  height: 25px;
+}
+
+.login-container > video {
+  width: 150px;
+}
+
+.login-actions > button {
+  width: 100%;
+  margin: 2px;
+}

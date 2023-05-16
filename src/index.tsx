@@ -5,13 +5,22 @@ import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { SignUpComponent } from "./pages/sign-up/sign-up.component";
 import { HomeComponent } from "./pages/home/home.component";
-import { ROOT_LOGIN, ROOT_SIGNUP } from "./constant/root.constant";
+import {
+  ADMINISTRATION,
+  DASHBOARD,
+  ROOT_LOGIN,
+  ROOT_SIGNUP,
+} from "./constant/root.constant";
 import { LoginComponent } from "./pages/login/login.component";
+import { DashboardComponent } from "./pages/dashboard/dashboard.component";
+import { AdministrationComponent } from "./pages/administration/administration.component";
 
 const routers = createBrowserRouter([
   { path: ROOT_SIGNUP, element: <SignUpComponent /> },
-  {path:"/", element:<HomeComponent/>},
-  {path:ROOT_LOGIN,element :<LoginComponent/>}
+  { path: DASHBOARD, element: <DashboardComponent /> },
+  { path: ADMINISTRATION, element: <AdministrationComponent /> },
+  { path: "/", element: <HomeComponent /> },
+  { path: ROOT_LOGIN, element: <LoginComponent /> },
 ]);
 
 const root = ReactDOM.createRoot(
@@ -20,7 +29,7 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <RouterProvider  router={routers} />
+    <RouterProvider router={routers} />
   </React.StrictMode>
 );
 

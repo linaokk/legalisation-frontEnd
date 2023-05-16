@@ -3,14 +3,13 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./login.style.css";
 import Webcam from "react-webcam";
-import { create } from "domain";
+import { DASHBOARD } from "../../constant/root.constant";
+
 export const LoginComponent: FunctionComponent = () => {
   const navigate = useNavigate();
   const webCamRef = useRef<Webcam>(null);
   const passwordRef = createRef<HTMLInputElement>();
   const usernameRef = createRef<HTMLInputElement>();
-
-  console.log(process.env);
 
   const loginHandler = () => {
     const camera = webCamRef.current;
@@ -18,58 +17,44 @@ export const LoginComponent: FunctionComponent = () => {
       return;
     }
     const screenShot = camera.getScreenshot() as string;
-   
+
     const username = usernameRef.current?.value || "";
     const password = passwordRef.current?.value || "";
-    const loginRequest = { numIdentite:username, password, screenShot };
-     console.log(loginRequest);
-     axios
-        .post(process.env.REACT_APP_WS_HOST+"/login",{data:loginRequest})
+    const loginRequest = { login: username, password, userPicture: screenShot };
 
-
-        
-     
+    axios
+      .post(process.env.REACT_APP_WS_HOST + "/auth/login", loginRequest)
+      .then((res) => {
+        localStorage.setItem("token", res.data.token);
+        navigate(DASHBOARD);
+      });
   };
   return (
-    <>
-      {" "}
-      <div className="center">
-        <input type="checkbox" id="show" />
-        <label className="show-btn">View Form</label>
-        <div className="container">
-          <label className="close-btn fas fa-times" title="close"></label>
-          <div className="text">Login Form</div>
-          <form action="#">
-            <div className="data">
-              <label>Email or Phone</label>
-              <input type="text" required ref={usernameRef} />
-            </div>
-            <div className="data">
-              <label>Password</label>
-              <input type="password" required ref={passwordRef} />
-            </div>
-            <Webcam
-              audio={false}
-              screenshotFormat="image/png"
-              ref={webCamRef}
-              videoConstraints={{ width: 80, height: 80 }}
-            ></Webcam>
-            <div className="forgot-pass">
-              <a href="#">Forgot Password?</a>
-            </div>
+    <div className="login-container">
+      <div className="login-inputs">
+        <input type="text" required ref={usernameRef} placeholder="Username" />
+        <input
+          type="password"
+          required
+          ref={passwordRef}
+          placeholder="Password"
+        />
+      </div>
 
-            <div className="btn">
-              <div className="inner"></div>
-              <button onClick={loginHandler} type="submit">
-                login
-              </button>
-            </div>
-            <div className="signup-link">
-              Not a member? <a href="#">Signup now</a>
-            </div>
-          </form>
-        </div>
-      </div>{" "}
-    </>
+      <Webcam
+        audio={false}
+        screenshotFormat="image/png"
+        ref={webCamRef}
+      ></Webcam>
+
+      <div className="login-actions">
+        <button onClick={loginHandler} type="submit">
+          login
+        </button>
+        <button onClick={loginHandler} type="submit">
+          reset password
+        </button>
+      </div>
+    </div>
   );
 };
