@@ -1,5 +1,4 @@
 import axios from "axios";
-import { ROOT_LOGIN } from "../constant/root.constant";
 
 export const initAxios = () => {
   axios.defaults.baseURL = process.env.REACT_APP_WS_HOST;
@@ -11,6 +10,7 @@ export const initAxios = () => {
     delete axios.defaults.headers.common["Authorization"];
   }
 
+  /*
   axios.interceptors.response.use(
     (response) => response,
     (error) => {
@@ -19,4 +19,5 @@ export const initAxios = () => {
       }
     }
   );
+  */
 };
