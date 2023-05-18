@@ -1,14 +1,13 @@
-import { FunctionComponent, useState, createRef } from "react";
+import { FunctionComponent } from "react";
 import axios from "axios";
 import styles from "./sign-up.module.css";
-import { Field, Form, Formik, useFormik } from "formik";
+import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { InputComponent } from "../../components/input/input.component";
 import {
   SelectComponent,
   SelectValue,
 } from "../../components/select/select.component";
-import { type } from "@testing-library/user-event/dist/type";
 import { initAxios } from "../../services/axios.service";
 
 interface FormProps {
@@ -111,10 +110,6 @@ export const SignUpComponent: FunctionComponent = () => {
         console.log("Error : ", err.response.data);
       });
   };
-  const signupFormik = useFormik<FormProps>({
-    initialValues: initialFormValues,
-    onSubmit: onSubmithandler,
-  });
 
   return (
     <>

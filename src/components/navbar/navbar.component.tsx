@@ -1,12 +1,6 @@
 import { FunctionComponent, useState } from "react";
+import { SecuredComponent } from "../secured/secured.component";
 import "./navbar.style.css";
-
-const urls = [
-  { href: "/home", name: "Home" },
-  { href: "/administration", name: "Administration" },
-  { href: "/requests", name: "My requests" },
-  { href: "/my_account", name: "My account" },
-];
 
 export const NavbarComponent: FunctionComponent = () => {
   const [isNavExpanded, setIsNavExpanded] = useState(false);
@@ -41,11 +35,20 @@ export const NavbarComponent: FunctionComponent = () => {
         }
       >
         <ul>
-          {urls.map((url) => (
+          <li>
+            <a href="/home">Home</a>
+          </li>
+          <li>
+            <a href="/requests">My requests</a>
+          </li>
+          <SecuredComponent oneRole={["ROLE_ADMIN"]}>
             <li>
-              <a href={url.href}>{url.name}</a>
+              <a href="/administration">Administration</a>
             </li>
-          ))}
+          </SecuredComponent>
+          <li>
+            <a href="/myaccount">My account</a>
+          </li>
         </ul>
       </div>
     </nav>

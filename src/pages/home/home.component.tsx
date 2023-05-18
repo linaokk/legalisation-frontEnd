@@ -1,13 +1,13 @@
 import { FunctionComponent, useRef, useState } from "react";
-import { Layer, Line, Stage, Text } from "react-konva";
+import { Layer, Line, Stage } from "react-konva";
 import { useNavigate } from "react-router-dom";
 import "./home.style.css";
-import { ROOT_SIGNUP } from "../../constant/root.constant";
+import { ROOT_SIGNUP } from "../../constants/root.constant";
 
 export const HomeComponent: FunctionComponent = () => {
   const navigate = useNavigate();
 
-  const [tool, setTool] = useState("pen");
+  const [tool] = useState("pen");
   const [lines, setLines] = useState<any[]>([]);
   const isDrawing = useRef<boolean>(false);
   const stageRef = useRef<any>();

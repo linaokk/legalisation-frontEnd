@@ -3,13 +3,15 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./login.style.css";
 import Webcam from "react-webcam";
-import { DASHBOARD } from "../../constant/root.constant";
+import { DASHBOARD } from "../../constants/root.constant";
+import { useAuthentication } from "../../hooks/authentication.hook";
 
 export const LoginComponent: FunctionComponent = () => {
   const navigate = useNavigate();
   const webCamRef = useRef<Webcam>(null);
   const passwordRef = createRef<HTMLInputElement>();
   const usernameRef = createRef<HTMLInputElement>();
+  const { setToken } = useAuthentication();
 
   const loginHandler = () => {
     const camera = webCamRef.current;
@@ -26,6 +28,7 @@ export const LoginComponent: FunctionComponent = () => {
       .post(process.env.REACT_APP_WS_HOST + "/auth/login", loginRequest)
       .then((res) => {
         localStorage.setItem("token", res.data.token);
+        setToken(res.data.token);
         navigate(DASHBOARD);
       });
   };

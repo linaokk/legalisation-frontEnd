@@ -1,45 +1,52 @@
-import { FunctionComponent, useState, createRef } from "react";
+import { FunctionComponent, useEffect } from "react";
 import { NavbarComponent } from "../../components/navbar/navbar.component";
-import { useAuth } from "../../hooks/auth.hook";
-import { initAxios } from "../../services/axios.service";
+import { useAdministration } from "../../hooks/administration.hook";
 import "./administration.style.css";
 
 export const AdministrationComponent: FunctionComponent = () => {
-  initAxios();
-  const { data, error } = useAuth();
+  const { users, fetchUsers, enableClient } = useAdministration();
+
+  useEffect(() => {
+    console.info("Je veux affficher qu'une fois ce msg");
+    fetchUsers();
+  }, []);
 
   return (
     <>
       <NavbarComponent />
-      <div className="admin-container">
-        {error && JSON.stringify(error)}
-        {data && (
-          <table className="admin-table">
+      <h1>User administration</h1>
+      <div className="container">
+        <table className="table">
+          <thead>
             <tr>
-              <td>login</td>
-              <td>activated</td>
-              <td>roles</td>
-              <td>numIdentite</td>
-              <td>actions</td>
+              <th scope="col">Username</th>
+              <th scope="col">First name</th>
+              <th scope="col">Last name</th>
+              <th scope="col">Roles</th>
+              <th scope="col">Email</th>
+              <th scope="col">identity number</th>
+              <th scope="col">actions</th>
             </tr>
-            {data.map((user) => (
+          </thead>
+
+          <tbody>
+            {users.map((user) => (
               <tr>
-                <td>{user.username}</td>
-                <td>{user.enabled ? "YES" : "NO"}</td>
+                <th scope="row">{user.username}</th>
+                <td>{user.firstname}</td>
+                <td>{user.lastname}</td>
+                <td>{user.authorities}</td>
+                <td>{user.email}</td>
+                <td>{user.identityCode}</td>
                 <td>
-                  {user.authorities
-                    .map((s) => s.authority)
-                    .reduce((a1, a2) => a1 + "," + a2)}
-                </td>
-                <td>{user.numeroIdentite}</td>
-                <td>
-                  <button>Enable</button>
-                  <button>Disable</button>
+                  <button onClick={() => enableClient(user.username)}>
+                    enable
+                  </button>
                 </td>
               </tr>
             ))}
-          </table>
-        )}
+          </tbody>
+        </table>
       </div>
     </>
   );

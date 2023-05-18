@@ -10,17 +10,35 @@ import {
   DASHBOARD,
   ROOT_LOGIN,
   ROOT_SIGNUP,
-} from "./constant/root.constant";
+} from "./constants/root.constant";
 import { LoginComponent } from "./pages/login/login.component";
 import { DashboardComponent } from "./pages/dashboard/dashboard.component";
 import { AdministrationComponent } from "./pages/administration/administration.component";
+import { GlobalContextProvider } from "./contexts/global.context";
+import { InitializerComponent } from "./components/initializer/initializer.component";
+import { SecuredComponent } from "./components/secured/secured.component";
+import { Role } from "./constants/role.constant";
 
 const routers = createBrowserRouter([
   { path: ROOT_SIGNUP, element: <SignUpComponent /> },
-  { path: DASHBOARD, element: <DashboardComponent /> },
-  { path: ADMINISTRATION, element: <AdministrationComponent /> },
-  { path: "/", element: <HomeComponent /> },
+  {
+    path: DASHBOARD,
+    element: (
+      <SecuredComponent oneRole={[Role.ROLE_USER]}>
+        <DashboardComponent />
+      </SecuredComponent>
+    ),
+  },
+  {
+    path: ADMINISTRATION,
+    element: (
+      <SecuredComponent oneRole={[Role.ROLE_ADMIN]}>
+        <AdministrationComponent />
+      </SecuredComponent>
+    ),
+  },
   { path: ROOT_LOGIN, element: <LoginComponent /> },
+  { path: "/", element: <HomeComponent /> },
 ]);
 
 const root = ReactDOM.createRoot(
@@ -28,9 +46,11 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <React.StrictMode>
-    <RouterProvider router={routers} />
-  </React.StrictMode>
+  <GlobalContextProvider>
+    <InitializerComponent>
+      <RouterProvider router={routers} />
+    </InitializerComponent>
+  </GlobalContextProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
