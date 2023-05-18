@@ -1,266 +1,246 @@
 import { FunctionComponent, useState, createRef } from "react";
 import axios from "axios";
-import "./sign-up.style.css";
+import styles from "./sign-up.module.css";
+import { Field, Form, Formik, useFormik } from "formik";
+import * as Yup from "yup";
+import { InputComponent } from "../../components/input/input.component";
+import {
+  SelectComponent,
+  SelectValue,
+} from "../../components/select/select.component";
+import { type } from "@testing-library/user-event/dist/type";
+import { initAxios } from "../../services/axios.service";
+
+interface FormProps {
+  identityType: string;
+  identityCode: string;
+  firstname: string;
+  lastname: string;
+  sexe: string;
+  nationality: string;
+  familySituation: string;
+  email: string;
+  emailConfirmation: string;
+  phoneNumber: string;
+  address: string;
+  fatherName: string;
+  motherName: string;
+  password: string;
+  birthday: string;
+}
+
+const idenityTypes: SelectValue[] = [
+  { label: "" },
+  { label: "CIN", value: "CIN" },
+  { label: "Passport", value: "PASSPORT" },
+];
+
+const sexes: SelectValue[] = [
+  { label: "" },
+  { label: "Male", value: "HOMME" },
+  { label: "Female", value: "FEMME" },
+];
+
+const nationalities: SelectValue[] = [
+  { label: "" },
+  { label: "Morocco", value: "MAROCAINE" },
+  { label: "Algeria", value: "ALGERIENNE" },
+];
+
+const familialSituations: SelectValue[] = [
+  { label: "" },
+  { label: "Veuf", value: "VEUF" },
+  { label: "Celib", value: "CELEBATAIRE" },
+  { label: "Divorce", value: "DIVIRCE" },
+];
+
+const initialFormValues: FormProps = {
+  firstname: "first name",
+  identityType: "CIN",
+  identityCode: "AE180899",
+  lastname: "last name",
+  sexe: "HOMME",
+  address: "81 rue Gallieni 92100 Franc",
+  email: "hajji.zouhair@outlook.fr",
+  emailConfirmation: "hajji.zouhair@outlook.fr",
+  familySituation: "CELEBATAIRE",
+  fatherName: "FatherA",
+  motherName: "MotherB",
+  nationality: "MAROCAINE",
+  phoneNumber: "0782793603",
+  password: "JeSuisUnMoTpAsSe",
+  birthday: "2000-12-30",
+};
+
+const signupSchema = Yup.object().shape({
+  firstname: Yup.string()
+    .min(2, "Too Short!")
+    .max(50, "Too Long!")
+    .required("Required"),
+  lastname: Yup.string()
+    .min(2, "Too Short!")
+    .max(50, "Too Long!")
+    .required("Required"),
+  email: Yup.string().email("Invalid email").required("Required"),
+  identityType: Yup.string().required("Required"),
+  emailConfirmation: Yup.string().required("Required"),
+  sexe: Yup.string().required("Required"),
+  familySituation: Yup.string().required("Required"),
+  identityCode: Yup.string().required("Required"),
+  birthday: Yup.date().required("Required"),
+  nationality: Yup.string().required("Required"),
+  address: Yup.string().required("Required"),
+  fatherName: Yup.string().required("Required"),
+  motherName: Yup.string().required("Required"),
+  phoneNumber: Yup.string().required("Required"),
+  password: Yup.string()
+    .min(2, "Too Short!")
+    .max(50, "Too Long!")
+    .required("Required"),
+});
+
 export const SignUpComponent: FunctionComponent = () => {
-  const [error, setError] = useState<string>();
-  const passwordRef = createRef<HTMLInputElement>();
-  const numIdentiteRef = createRef<HTMLInputElement>();
-  const pieceIdentiteRef = createRef<HTMLSelectElement>();
-  const prenomRef = createRef<HTMLInputElement>();
-  const dateNaissanceRef = createRef<HTMLInputElement>();
-  const nationaliteRef = createRef<HTMLSelectElement>();
-  const situationFamRef = createRef<HTMLSelectElement>();
-  const emailRef = createRef<HTMLInputElement>();
-
-  const numTeleRef = createRef<HTMLInputElement>();
-  const adresseResidenceRef = createRef<HTMLInputElement>();
-  const nomPereRef = createRef<HTMLInputElement>();
-  const nomMereRef = createRef<HTMLInputElement>();
-  const sexeRef = createRef<HTMLSelectElement>();
-  const nomRef = createRef<HTMLInputElement>();
-
-  const checkFields = (): boolean => {
-    const numIdentite = numIdentiteRef.current?.value || "";
-    const nom = nomRef.current?.value || "";
-    const password = passwordRef.current?.value || "";
-    const numTele = numTeleRef.current?.value || "";
-
-    console.log();
-    if (numIdentite.length < 6) {
-      setError("Le numéro d'identité doit comporter au moins 6 caractères");
-      return false;
-     
-    }
-    if (nom.length < 3) {
-      setError("Entrer a valide nom ");
-      return false;
-    }
-    if (password.length < 8) {
-      setError("Le Mot de passe  doit comporter au moins 8 caractères");
-      return false;
-    }
-    if (numTele.length < 10) {
-      setError("le Numero de Telephone n'est pas valide");
-      return false;
-    }else { 
-    setError(undefined);
-    return true;}
-   
+  initAxios();
+  const onSubmithandler = (props: FormProps): void => {
+    axios
+      .post("/auth/register", props)
+      .then((res) => {
+        console.log(">", res);
+      })
+      .catch((err) => {
+        console.log("Error : ", err.response.data);
+      });
   };
-
-  const onSubmitHandler = () => {
-    const formIsValid = checkFields();
-    const numIdentite = numIdentiteRef.current?.value || "";
-    const nom = nomRef.current?.value || "";
-    const pieceDidentite = pieceIdentiteRef.current?.value || "";
-    const prenom = prenomRef.current?.value || "";
-    const dateNaissance = dateNaissanceRef.current?.value || "";
-    const nationalite = nationaliteRef.current?.value || "";
-    const situationFam = situationFamRef.current?.value || "";
-    const email = emailRef.current?.value || "";
-    const numTele = numTeleRef.current?.value || "";
-    const adresseResidence = adresseResidenceRef.current?.value || "";
-    const nomPere = nomPereRef.current?.value || "";
-    const nomMere = nomMereRef.current?.value || "";
-    const sexe = sexeRef.current?.value || "";
-    const password = passwordRef.current?.value || "";
-    if (formIsValid) {
-      axios
-        .post(process.env.REACT_APP_WS_HOST+"/signup", {
-          password,
-          pieceDidentite,
-          numIdentite,
-          prenom,
-          nom,
-          sexe,
-          dateNaissance,
-          nationalite,
-          situationFam,
-          email,
-          numTele,
-          adresseResidence,
-          nomPere,
-          nomMere,
-        })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          setError(err.response.data);
-        });
-    }
-  };
+  const signupFormik = useFormik<FormProps>({
+    initialValues: initialFormValues,
+    onSubmit: onSubmithandler,
+  });
 
   return (
     <>
-      <form>
-        <div></div>
-        <div className="container">
-          <div className="title">Registration</div>
-          <div className="content">
-            <form action="#">
-              <div className="user-details">
-                <div className="input-box">
-                  <span className="details">Piece Didentité</span>
-                  <select ref={pieceIdentiteRef}>
-                    <option>CIN </option>
-                    <option>PASSEPORT </option>
-                  </select>
-                </div>
-                <div className="input-box">
-                  <span className="details">Numero Identité</span>
-                  <input
-                    type="text"
-                    placeholder="Enter your username"
-                    required
-                    ref={numIdentiteRef}
-                    
-                  /> 
-                </div>
-                <div className="input-box">
-                  <span className="details">Prenom</span>
-                  <input
-                    type="text"
-                    placeholder="Enter your email"
-                    required
-                    ref={prenomRef}
-                    value="nabil"
-                  />
-                </div>
-                <div className="input-box">
-                  <span className="details">Nom</span>
-                  <input
-                    type="text"
-                    placeholder="Enter your number"
-                    required
-                    ref={nomRef}
-                    value="nabil"
-                  />
-                   
-                </div>
-                <div className="input-box">
-                  <span className="details">Sexe</span>
-                  <select ref={sexeRef}>
-                    <option>HOMME</option>
-                    <option>FEMME</option>
-                  </select>
-                </div>
-                <div className="input-box">
-                  <span className="details">Date de Naissance </span>
-                  <input
-                    type="date"
-                    placeholder="Confirm your password"
-                    required
-                    ref={dateNaissanceRef}
-                  />
-                </div>
+      <Formik
+        initialValues={initialFormValues}
+        onSubmit={onSubmithandler}
+        validationSchema={signupSchema}
+      >
+        {({ errors, touched }) => (
+          <Form>
+            <div className={styles.registerContainer}>
+              <h2>Registration</h2>
+              <SelectComponent
+                label="identity type"
+                name="identityType"
+                errors={errors.identityType}
+                touched={touched.identityType}
+                values={idenityTypes}
+              />
 
-                <div className="input-box">
-                  <span className="details">Nationalité </span>
-                  <select ref={nationaliteRef}>
-                    <option>ALGERIENNE</option>
-                  </select>
-                </div>
-                <div className="input-box">
-                  <span className="details">Situation Familliale </span>
-                  <select ref={situationFamRef}>
-                    <option>VEUF</option>
-                    <option>CELEBATAIRE</option>
-                    <option>MARIE</option>
-                    <option>DIVIRCE</option>
-                  </select>
-                </div>
+              <InputComponent
+                label="Identity Code"
+                name="identityCode"
+                errors={errors.identityCode}
+                touched={touched.identityCode}
+              />
 
-                <div className="input-box">
-                  <span className="details">Email</span>
-                  <input
-                    type="Email"
-                    placeholder="Enter your number"
-                    required
-                    ref={emailRef}
-                    value="a.c@d.d"
-                  />
-                   
-                </div>
-                <div className="input-box">
-                  <span className="details">Confirmation Email</span>
-                  <input
-                    type="text"
-                    placeholder="Enter your number"
-                    required
-                    value="a.c@d.d"
-                  />
-                </div>
+              <InputComponent
+                label="First Name"
+                name="firstname"
+                errors={errors.firstname}
+                touched={touched.firstname}
+              />
 
-                <div className="input-box">
-                  <span className="details">Numero de Telephone </span>
-                  <input
-                    type="text"
-                    placeholder="Enter your number"
-                    required
-                    ref={numTeleRef}
-                    value="nabilhhhhhhhhhhhlllll"
-                  />
-                  
-                </div>
+              <InputComponent
+                label="Last Name"
+                name="lastname"
+                errors={errors.lastname}
+                touched={touched.lastname}
+              />
 
-                <div className="input-box">
-                  <span className="details">Adresse de Residence</span>
-                  <input
-                    type="text"
-                    placeholder="Enter your number"
-                    required
-                    ref={adresseResidenceRef}
-                    value="nabil"
-                  />
-                   
-                </div>
+              <InputComponent
+                label="Phone number"
+                name="phoneNumber"
+                errors={errors.phoneNumber}
+                touched={touched.phoneNumber}
+              />
 
-                <div className="input-box">
-                  <span className="details">Nom Pere</span>
-                  <input
-                    type="text"
-                    placeholder="Enter your number"
-                    required
-                    ref={nomPereRef}
-                    value="nabil"
-                  />
-                </div>
+              <InputComponent
+                type="date"
+                label="Birth date"
+                name="birthday"
+                errors={errors.birthday}
+                touched={touched.birthday}
+              />
 
-                <div className="input-box">
-                  <span className="details">Nom Mere</span>
-                  <input
-                    type="text"
-                    placeholder="Enter your number"
-                    required
-                    ref={nomMereRef}
-                    value="nabil"
-                  />
-                </div>
+              <SelectComponent
+                label="Nationality"
+                name="nationality"
+                errors={errors.nationality}
+                touched={touched.nationality}
+                values={nationalities}
+              />
+              <InputComponent
+                label="Email"
+                name="email"
+                errors={errors.email}
+                touched={touched.email}
+              />
 
-                <div className="input-box">
-                  <span className="details">Password</span>
-                  <input
-                    type="password"
-                    placeholder="Enter your number"
-                    required
-                    ref={passwordRef}
-                    value="nabilllllllllll"
-                  />
-                </div>
-              </div>
+              <InputComponent
+                label="Email confirmation"
+                name="emailConfirmation"
+                errors={errors.emailConfirmation}
+                touched={touched.emailConfirmation}
+              />
 
-              <div className="button">
-                <input
-                  type="submit"
-                  value="Register"
-                  onClick={onSubmitHandler}
-                />
-              </div>
-            </form>
-          </div>
-        </div>
-      </form>
+              <InputComponent
+                label="Password"
+                name="password"
+                errors={errors.password}
+                touched={touched.password}
+              />
+
+              <InputComponent
+                label="Mother name"
+                name="motherName"
+                errors={errors.motherName}
+                touched={touched.motherName}
+              />
+
+              <InputComponent
+                label="Father name"
+                name="fatherName"
+                errors={errors.fatherName}
+                touched={touched.fatherName}
+              />
+
+              <InputComponent
+                label="Address"
+                name="address"
+                errors={errors.address}
+                touched={touched.address}
+              />
+
+              <SelectComponent
+                label="Familial situation"
+                name="familySituation"
+                errors={errors.familySituation}
+                touched={touched.familySituation}
+                values={familialSituations}
+              />
+
+              <SelectComponent
+                label="Sexe"
+                name="sexe"
+                errors={errors.sexe}
+                touched={touched.sexe}
+                values={sexes}
+              />
+
+              <button type="submit">Submit the form</button>
+            </div>
+          </Form>
+        )}
+      </Formik>
     </>
   );
 };

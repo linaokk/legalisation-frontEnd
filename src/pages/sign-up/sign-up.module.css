@@ -1,0 +1,19 @@
+.registerContainer {
+  background-color: azure;
+  border: 1px solid;
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  right: 10%;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  width: 80vw;
+  justify-content: space-around;
+}
+
+.registerContainer > * {
+  width: 80%;
+}

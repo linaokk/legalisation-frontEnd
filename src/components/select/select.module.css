@@ -1,0 +1,13 @@
+.labelError {
+  color: red;
+}
+
+.selectElement {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.selectElement > select {
+  height: 30px;
+}
