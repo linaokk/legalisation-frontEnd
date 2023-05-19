@@ -9,6 +9,7 @@ import {
   SelectValue,
 } from "../../components/select/select.component";
 import { initAxios } from "../../services/axios.service";
+import { SignatureComponent } from "../../components/signature/signature.composant";
 
 interface FormProps {
   identityType: string;
@@ -26,6 +27,7 @@ interface FormProps {
   motherName: string;
   password: string;
   birthday: string;
+  signature: string;
 }
 
 const idenityTypes: SelectValue[] = [
@@ -69,6 +71,7 @@ const initialFormValues: FormProps = {
   phoneNumber: "0782793603",
   password: "JeSuisUnMoTpAsSe",
   birthday: "2000-12-30",
+  signature: "",
 };
 
 const signupSchema = Yup.object().shape({
@@ -96,11 +99,15 @@ const signupSchema = Yup.object().shape({
     .min(2, "Too Short!")
     .max(50, "Too Long!")
     .required("Required"),
+
+  signature: Yup.string().required("Required").min(100, "too short"),
 });
 
 export const SignUpComponent: FunctionComponent = () => {
+
   initAxios();
   const onSubmithandler = (props: FormProps): void => {
+      console.log(props)
     axios
       .post("/auth/register", props)
       .then((res) => {
@@ -229,6 +236,14 @@ export const SignUpComponent: FunctionComponent = () => {
                 errors={errors.sexe}
                 touched={touched.sexe}
                 values={sexes}
+              />
+
+              <SignatureComponent
+                height={200}
+                width={300}
+                label="Signature"
+                errors={errors.signature}
+                name="signature"
               />
 
               <button type="submit">Submit the form</button>
