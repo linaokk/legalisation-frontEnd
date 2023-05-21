@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./login.style.css";
 import Webcam from "react-webcam";
-import { DASHBOARD } from "../../constants/root.constant";
 import { useAuthentication } from "../../hooks/authentication.hook";
+import { ROUTES } from "../../constants/root.constant";
 
 export const LoginComponent: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ export const LoginComponent: FunctionComponent = () => {
       .then((res) => {
         localStorage.setItem("token", res.data.token);
         setToken(res.data.token);
-        navigate(DASHBOARD);
+        navigate(ROUTES.DASHBOARD);
       });
   };
   return (

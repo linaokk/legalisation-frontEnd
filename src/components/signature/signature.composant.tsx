@@ -8,7 +8,7 @@ interface SignatureComponentProps {
   width: number;
   label: string;
   errors?: string;
-  name : string ;
+  name: string;
 }
 
 export const SignatureComponent: FunctionComponent<SignatureComponentProps> = ({
@@ -19,7 +19,7 @@ export const SignatureComponent: FunctionComponent<SignatureComponentProps> = ({
   name,
 }) => {
   const isDrawing = useRef<boolean>(false);
-  const {setFieldValue,validateField}= useFormikContext();
+  const { setFieldValue } = useFormikContext();
   const [lines, setLines] = useState<any[]>([]);
   const [tool] = useState("pen");
   const stageRef = useRef<any>();
@@ -27,16 +27,6 @@ export const SignatureComponent: FunctionComponent<SignatureComponentProps> = ({
     isDrawing.current = false;
   };
 
-  const handleExport = () => {
-    if (!stageRef || !stageRef.current) return;
-    const uri = stageRef.current.toDataURL();
-    console.log(uri);
-    // we also can save uri as file
-    // but in the demo on Konva website it will not work
-    // because of iframe restrictions
-    // but feel free to use it in your apps:
-    // downloadURI(uri, 'stage.png');
-  };
   const handleMouseMove = (e: any) => {
     // no drawing - skipping
     if (!isDrawing.current) {
@@ -57,9 +47,9 @@ export const SignatureComponent: FunctionComponent<SignatureComponentProps> = ({
     isDrawing.current = true;
     const pos = e.target.getStage().getPointerPosition();
     setLines([...lines, { tool, points: [pos.x, pos.y] }]);
-      if (!stageRef || !stageRef.current) return;
+    if (!stageRef || !stageRef.current) return;
     const uri = stageRef.current.toDataURL();
-    setFieldValue(name , uri)
+    setFieldValue(name, uri);
   };
 
   const handleOnReset = () => {
@@ -67,8 +57,11 @@ export const SignatureComponent: FunctionComponent<SignatureComponentProps> = ({
   };
 
   return (
-    <div>
-      {label} :<span className={styles.errorMessage}>{errors}</span>
+    <div className={styles.signatureWowo}>
+      <div>
+        {label}
+        {errors && <span className={styles.errorMessage}>: {errors}</span>}
+      </div>
       <Stage
         width={width}
         height={height}

@@ -5,12 +5,7 @@ import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { SignUpComponent } from "./pages/sign-up/sign-up.component";
 import { HomeComponent } from "./pages/home/home.component";
-import {
-  ADMINISTRATION,
-  DASHBOARD,
-  ROOT_LOGIN,
-  ROOT_SIGNUP,
-} from "./constants/root.constant";
+
 import { LoginComponent } from "./pages/login/login.component";
 import { DashboardComponent } from "./pages/dashboard/dashboard.component";
 import { AdministrationComponent } from "./pages/administration/administration.component";
@@ -18,11 +13,14 @@ import { GlobalContextProvider } from "./contexts/global.context";
 import { InitializerComponent } from "./components/initializer/initializer.component";
 import { SecuredComponent } from "./components/secured/secured.component";
 import { Role } from "./constants/role.constant";
+import { MyRequestsComponent } from "./pages/my-requests/my-requests.component";
+import { ROUTES } from "./constants/root.constant";
+import { AddRequestComponent } from "./pages/add-request/add-request.component";
 
 const routers = createBrowserRouter([
-  { path: ROOT_SIGNUP, element: <SignUpComponent /> },
+  { path: ROUTES.ROOT_SIGNUP, element: <SignUpComponent /> },
   {
-    path: DASHBOARD,
+    path: ROUTES.DASHBOARD,
     element: (
       <SecuredComponent oneRole={[Role.ROLE_USER]}>
         <DashboardComponent />
@@ -30,14 +28,30 @@ const routers = createBrowserRouter([
     ),
   },
   {
-    path: ADMINISTRATION,
+    path: ROUTES.MY_REQUESTS,
+    element: (
+      <SecuredComponent oneRole={[Role.ROLE_USER]}>
+        <MyRequestsComponent />
+      </SecuredComponent>
+    ),
+  },
+  {
+    path: ROUTES.CREATE_NEW_REQUEST,
+    element: (
+      <SecuredComponent oneRole={[Role.ROLE_USER]}>
+        <AddRequestComponent />
+      </SecuredComponent>
+    ),
+  },
+  {
+    path: ROUTES.ADMINISTRATION,
     element: (
       <SecuredComponent oneRole={[Role.ROLE_ADMIN]}>
         <AdministrationComponent />
       </SecuredComponent>
     ),
   },
-  { path: ROOT_LOGIN, element: <LoginComponent /> },
+  { path: ROUTES.ROOT_LOGIN, element: <LoginComponent /> },
   { path: "/", element: <HomeComponent /> },
 ]);
 

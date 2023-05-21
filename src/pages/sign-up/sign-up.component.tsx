@@ -10,6 +10,7 @@ import {
 } from "../../components/select/select.component";
 import { initAxios } from "../../services/axios.service";
 import { SignatureComponent } from "../../components/signature/signature.composant";
+import { CameraComponent } from "../../components/camera/camera.component";
 
 interface FormProps {
   identityType: string;
@@ -28,6 +29,7 @@ interface FormProps {
   password: string;
   birthday: string;
   signature: string;
+  userPicture: string;
 }
 
 const idenityTypes: SelectValue[] = [
@@ -72,6 +74,7 @@ const initialFormValues: FormProps = {
   password: "JeSuisUnMoTpAsSe",
   birthday: "2000-12-30",
   signature: "",
+  userPicture: "",
 };
 
 const signupSchema = Yup.object().shape({
@@ -101,13 +104,12 @@ const signupSchema = Yup.object().shape({
     .required("Required"),
 
   signature: Yup.string().required("Required").min(100, "too short"),
+  userPicture: Yup.string().required("Required").min(100, "too short"),
 });
 
 export const SignUpComponent: FunctionComponent = () => {
-
-  initAxios();
   const onSubmithandler = (props: FormProps): void => {
-      console.log(props)
+    console.log(props);
     axios
       .post("/auth/register", props)
       .then((res) => {
@@ -244,6 +246,14 @@ export const SignUpComponent: FunctionComponent = () => {
                 label="Signature"
                 errors={errors.signature}
                 name="signature"
+              />
+
+              <CameraComponent
+                label="User picture"
+                errors={errors.userPicture}
+                name="userPicture"
+                width={300}
+                height={200}
               />
 
               <button type="submit">Submit the form</button>
