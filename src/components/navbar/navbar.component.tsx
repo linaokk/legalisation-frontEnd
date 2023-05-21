@@ -1,6 +1,8 @@
 import { FunctionComponent, useState } from "react";
 import { SecuredComponent } from "../secured/secured.component";
 import "./navbar.style.css";
+import { ROUTES } from "../../constants/root.constant";
+import { Role } from "../../constants/role.constant";
 
 export const NavbarComponent: FunctionComponent = () => {
   const [isNavExpanded, setIsNavExpanded] = useState(false);
@@ -36,14 +38,14 @@ export const NavbarComponent: FunctionComponent = () => {
       >
         <ul>
           <li>
-            <a href="/home">Home</a>
+            <a href={ROUTES.DASHBOARD}>Home</a>
           </li>
           <li>
-            <a href="/requests">My requests</a>
+            <a href={ROUTES.MY_REQUESTS}>My requests</a>
           </li>
-          <SecuredComponent oneRole={["ROLE_ADMIN"]}>
+          <SecuredComponent oneRole={[Role.ROLE_ADMIN]}>
             <li>
-              <a href="/administration">Administration</a>
+              <a href={ROUTES.ADMINISTRATION}>Administration</a>
             </li>
           </SecuredComponent>
           <li>

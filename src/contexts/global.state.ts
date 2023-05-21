@@ -12,5 +12,6 @@ export interface GlobalContextState {
     setUser: (_: LogginUser) => void;
     setRoles: (_: string[]) => void;
     setToken: (_: string) => void;
+    clearToken: () => void;
   };
 }

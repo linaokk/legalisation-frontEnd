@@ -27,6 +27,10 @@ export const GlobalContextProvider: FunctionComponent<
           setRoles: (_: string[]) => setRoles(_),
           setUser: (_: LogginUser) => setUser(_),
           setToken: (_: string) => setToken(_),
+          clearToken: () => {
+            setToken(localStorage.null);
+            delete localStorage.token;
+          },
         },
       }}
     >

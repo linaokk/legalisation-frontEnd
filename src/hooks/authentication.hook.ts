@@ -12,7 +12,7 @@ export const useAuthentication = () => {
     );
 
   const {
-    auth: { setToken, token, setUser, setRoles, roles },
+    auth: { setToken, token, setUser, setRoles, roles, clearToken },
   } = context;
 
   const fetchUser = () => {
@@ -29,5 +29,5 @@ export const useAuthentication = () => {
       });
   };
 
-  return { setToken, token, fetchUser, roles };
+  return { setToken, token, fetchUser, roles, clearToken };
 };

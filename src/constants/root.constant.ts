@@ -1,4 +1,8 @@
-export const ROOT_SIGNUP: string = "/signup";
-export const ROOT_LOGIN: string = "/login";
-export const DASHBOARD: string = "/home";
-export const ADMINISTRATION: string = "/administration";
+export enum ROUTES {
+  ROOT_SIGNUP = "/signup",
+  ROOT_LOGIN = "/login",
+  DASHBOARD = "/home",
+  ADMINISTRATION = "/administration",
+  MY_REQUESTS = "/myrequests",
+  CREATE_NEW_REQUEST = "/addrequest",
+}

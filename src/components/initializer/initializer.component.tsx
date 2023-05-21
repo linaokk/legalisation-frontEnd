@@ -11,10 +11,14 @@ export const InitializerComponent: FunctionComponent<
 > = ({ children }) => {
   initAxios();
 
-  const { token, fetchUser } = useAuthentication();
+  const { token, fetchUser, clearToken } = useAuthentication();
 
   useEffect(() => {
-    if (token) fetchUser();
+    if (token)
+      fetchUser().catch((err) => {
+        console.info("je dois supprimer le token ");
+        clearToken();
+      });
 
     // eslint-disable-next-line
   }, [token]);

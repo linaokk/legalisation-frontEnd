@@ -1,0 +1,10 @@
+.pageContainer {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.pageContainer > button {
+  background-color: rgb(55, 53, 53);
+  color: white;
+}
