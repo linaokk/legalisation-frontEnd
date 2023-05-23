@@ -9,7 +9,7 @@ export const NavbarComponent: FunctionComponent = () => {
 
   return (
     <nav className="navigation">
-      <a href="/" className="brand-name">
+      <a href={ROUTES.DASHBOARD} className="brand-name">
         Legalisation
       </a>
       <button

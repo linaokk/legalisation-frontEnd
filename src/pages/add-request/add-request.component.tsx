@@ -10,10 +10,15 @@ import { Form, Formik } from "formik";
 import styles from "./add-request.module.css";
 import { InputComponent } from "../../components/input/input.component";
 import { InputFileComponent } from "../../components/input-file/input-file.component";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../constants/root.constant";
+import { toast } from "react-toastify";
+import { Messages } from "../../constants/messages.constant";
 
 interface FormProps {
   description: string;
-  document: any;
+  document?: File;
   documentType: string;
 }
 
@@ -31,7 +36,7 @@ const documentTypes: SelectValue[] = [
 
 const initialFormValues: FormProps = {
   description: "Je suis une description",
-  document: "c:/",
+  document: undefined,
   documentType: "IMMATRICULATION_CNSS",
 };
 
@@ -40,18 +45,49 @@ const signupSchema = Yup.object().shape({
     .min(2, "Too Short!")
     .max(50, "Too Long!")
     .required("Required"),
-  document: Yup.string().required(),
+  document: Yup.mixed<File>().test(
+    "fileNeeded",
+    "The file is needed",
+    (value) => {
+      if (!value) return false;
+      return true;
+    }
+  ),
   documentType: Yup.string().min(2, "Too Short!").required(),
 });
 
-const onSubmithandler = () => {
-  console.info(">CouCOu");
-};
 export const AddRequestComponent: FunctionComponent = () => {
+  const navigate = useNavigate();
+
+  const onSubmithandler = (props: FormProps) => {
+    const formData = new FormData();
+    Object.entries(props).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+
+    axios
+      .post("/requests/add", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+      .then((res) => {
+        toast.success(Messages.REQUEST_CREATED);
+        navigate(ROUTES.MY_REQUESTS);
+      })
+      .catch((err) => {
+        toast.error(Messages.REQUEST_ERROR_CREATE);
+      });
+  };
+
   return (
     <>
       <NavbarComponent />
       <div className="container">
+        <h1
+          style={{ textDecoration: "underline", margin: "20px 0px 30px 0px" }}
+        >
+          Create new request
+        </h1>
+
         <Formik
           initialValues={initialFormValues}
           onSubmit={onSubmithandler}
@@ -78,7 +114,13 @@ export const AddRequestComponent: FunctionComponent = () => {
                   type="text"
                 />
 
-                <InputFileComponent />
+                <InputFileComponent
+                  label="Document"
+                  name="document"
+                  errors={errors.document}
+                />
+
+                <button type="submit">Send</button>
               </div>
             </Form>
           )}

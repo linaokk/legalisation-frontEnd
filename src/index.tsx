@@ -1,10 +1,8 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { SignUpComponent } from "./pages/sign-up/sign-up.component";
-import { HomeComponent } from "./pages/home/home.component";
 
 import { LoginComponent } from "./pages/login/login.component";
 import { DashboardComponent } from "./pages/dashboard/dashboard.component";
@@ -16,6 +14,8 @@ import { Role } from "./constants/role.constant";
 import { MyRequestsComponent } from "./pages/my-requests/my-requests.component";
 import { ROUTES } from "./constants/root.constant";
 import { AddRequestComponent } from "./pages/add-request/add-request.component";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const routers = createBrowserRouter([
   { path: ROUTES.ROOT_SIGNUP, element: <SignUpComponent /> },
@@ -52,7 +52,6 @@ const routers = createBrowserRouter([
     ),
   },
   { path: ROUTES.ROOT_LOGIN, element: <LoginComponent /> },
-  { path: "/", element: <HomeComponent /> },
 ]);
 
 const root = ReactDOM.createRoot(
@@ -60,11 +59,25 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <GlobalContextProvider>
-    <InitializerComponent>
-      <RouterProvider router={routers} />
-    </InitializerComponent>
-  </GlobalContextProvider>
+  <>
+    <GlobalContextProvider>
+      <InitializerComponent>
+        <RouterProvider router={routers} />
+      </InitializerComponent>
+    </GlobalContextProvider>
+    <ToastContainer
+      position="top-right"
+      autoClose={3000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="colored"
+    />
+  </>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -25,6 +25,7 @@
 .navigation-menu ul {
   display: flex;
   padding: 0;
+  margin: 0;
 }
 
 .navigation-menu li {

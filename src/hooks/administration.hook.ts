@@ -37,15 +37,15 @@ export const useAdministration = () => {
       });
   };
 
-  const fetchUsers = () => {
-    console.info("Je veux afficher la liste des users");
-    axios
+  const fetchUsers = async () => {
+    return axios
       .get<User[]>(API_FETCH_ADMIN_DISABLED_CLIENTS)
       .then((res) => {
         setUsers(res.data);
+        return Promise.resolve(res.data);
       })
       .catch((err) => {
-        console.info("Merde, ", err);
+        return Promise.reject(err);
       });
   };
 

@@ -8,7 +8,6 @@ import {
   SelectComponent,
   SelectValue,
 } from "../../components/select/select.component";
-import { initAxios } from "../../services/axios.service";
 import { SignatureComponent } from "../../components/signature/signature.composant";
 import { CameraComponent } from "../../components/camera/camera.component";
 
@@ -127,10 +126,11 @@ export const SignUpComponent: FunctionComponent = () => {
         onSubmit={onSubmithandler}
         validationSchema={signupSchema}
       >
-        {({ errors, touched }) => (
+        {({ errors, touched, values }) => (
           <Form>
             <div className={styles.registerContainer}>
               <h2>Registration</h2>
+
               <SelectComponent
                 label="identity type"
                 name="identityType"

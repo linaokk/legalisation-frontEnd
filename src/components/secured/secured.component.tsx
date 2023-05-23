@@ -40,6 +40,5 @@ export const SecuredComponent: FunctionComponent<SecuredComponentProps> = ({
 }) => {
   const { roles } = useAuthentication();
 
-  const roleExpectation = oneRole && hasOneRole(roles, oneRole);
   return <>{satisfiedRoles(roles, oneRole, undefined) && children}</>;
 };
