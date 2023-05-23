@@ -8,3 +8,8 @@
   background-color: rgb(55, 53, 53);
   color: white;
 }
+
+.actionsContainer {
+  display: flex;
+  gap: 10px;
+}

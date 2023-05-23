@@ -1,14 +1,16 @@
 import { FunctionComponent, useEffect } from "react";
 import { NavbarComponent } from "../../components/navbar/navbar.component";
 import { useAdministration } from "../../hooks/administration.hook";
+
 import "./administration.style.css";
+import { Messages } from "../../constants/messages.constant";
 
 export const AdministrationComponent: FunctionComponent = () => {
   const { users, fetchUsers, enableClient } = useAdministration();
 
   useEffect(() => {
-    console.info("Je veux affficher qu'une fois ce msg");
     fetchUsers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

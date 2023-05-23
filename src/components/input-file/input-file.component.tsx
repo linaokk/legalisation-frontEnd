@@ -1,14 +1,37 @@
-import { Field } from "formik";
-import { FunctionComponent } from "react";
+import { useFormikContext } from "formik";
+import { ChangeEvent, FunctionComponent } from "react";
+import styles from "./input-file.module.css";
 
-interface InputFileComponentProps {}
+interface InputFileComponentProps {
+  name: string;
+  label: string;
+  errors?: any;
+  key?: string;
+}
 
-export const InputFileComponent: FunctionComponent<
-  InputFileComponentProps
-> = () => {
+export const InputFileComponent: FunctionComponent<InputFileComponentProps> = ({
+  label,
+  name,
+  errors,
+  key,
+}) => {
+  const { setFieldValue } = useFormikContext();
+
+  const handleFile = (e: ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      const file = files.item(0);
+      setFieldValue(name, file);
+    }
+  };
+
   return (
-    <>
-      <Field type="text"></Field>
-    </>
+    <div>
+      <div>
+        {label}
+        {errors && <span className={styles.labelError}>: {errors}</span>}
+      </div>
+      <input key={key} type="file" onChange={handleFile}></input>
+    </div>
   );
 };

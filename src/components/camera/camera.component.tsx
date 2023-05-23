@@ -54,7 +54,7 @@ export const CameraComponent: FunctionComponent<CameraComponentProps> = ({
           ref={webCamRef}
         />
       )}
-      {screenShot && <img src={screenShot} alt="User Picture"></img>}
+      {screenShot && <img src={screenShot} alt="user camerashot"></img>}
       {!screenShot && (
         <button type="button" onClick={handleCapture}>
           Capture
