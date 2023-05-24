@@ -16,6 +16,11 @@ import { ROUTES } from "./constants/root.constant";
 import { AddRequestComponent } from "./pages/add-request/add-request.component";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { MyAccountComponent } from "./pages/my-account/my-account.component";
+import { EditAccountComponent } from "./pages/edit-account/edit-account.component";
+import { Page403Component } from "./pages/403/403.component";
+
+const page403: JSX.Element = <Page403Component />;
 
 const routers = createBrowserRouter([
   { path: ROUTES.ROOT_SIGNUP, element: <SignUpComponent /> },
@@ -24,6 +29,22 @@ const routers = createBrowserRouter([
     element: (
       <SecuredComponent oneRole={[Role.ROLE_USER]}>
         <DashboardComponent />
+      </SecuredComponent>
+    ),
+  },
+  {
+    path: ROUTES.EDIT_MY_ACCOUNT,
+    element: (
+      <SecuredComponent oneRole={[Role.ROLE_USER]} fallback={page403}>
+        <EditAccountComponent />
+      </SecuredComponent>
+    ),
+  },
+  {
+    path: "/myaccount",
+    element: (
+      <SecuredComponent oneRole={[Role.ROLE_USER]}>
+        <MyAccountComponent />
       </SecuredComponent>
     ),
   },

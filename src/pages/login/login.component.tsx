@@ -1,10 +1,12 @@
 import { FunctionComponent, useRef, createRef } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import "./login.style.css";
 import Webcam from "react-webcam";
 import { useAuthentication } from "../../hooks/authentication.hook";
 import { ROUTES } from "../../constants/root.constant";
+import { handleAxiosError } from "../../services/axios.service";
+import { API_LOGIN } from "../../constants/api.constant";
 
 export const LoginComponent: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -25,12 +27,12 @@ export const LoginComponent: FunctionComponent = () => {
     const loginRequest = { login: username, password, userPicture: screenShot };
 
     axios
-      .post(process.env.REACT_APP_WS_HOST + "/auth/login", loginRequest)
+      .post(API_LOGIN, loginRequest)
       .then((res) => {
-        localStorage.setItem("token", res.data.token);
         setToken(res.data.token);
         navigate(ROUTES.DASHBOARD);
-      });
+      })
+      .catch(handleAxiosError);
   };
   return (
     <div className="login-container">
@@ -54,8 +56,23 @@ export const LoginComponent: FunctionComponent = () => {
         <button onClick={loginHandler} type="submit">
           login
         </button>
-        <button onClick={loginHandler} type="submit">
-          reset password
+        <button
+          onClick={() => {
+            if (!passwordRef.current || !usernameRef.current) return;
+            usernameRef.current.value = "admin";
+            passwordRef.current.value = "admin";
+          }}
+        >
+          Set Admin
+        </button>
+        <button
+          onClick={() => {
+            if (!passwordRef.current || !usernameRef.current) return;
+            usernameRef.current.value = "AE180899";
+            passwordRef.current.value = "JeSuisUnMoTpAsSe";
+          }}
+        >
+          Set AE180899
         </button>
       </div>
     </div>

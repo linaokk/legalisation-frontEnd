@@ -4,6 +4,7 @@ import { useAuthentication } from "../../hooks/authentication.hook";
 interface SecuredComponentProps {
   children: JSX.Element;
   oneRole?: string[];
+  fallback?: JSX.Element;
 }
 
 const hasAllRoles = (roles: string[], expectedRoles: string[]) => {
@@ -37,8 +38,13 @@ const satisfiedRoles = (
 export const SecuredComponent: FunctionComponent<SecuredComponentProps> = ({
   children,
   oneRole,
+  fallback,
 }) => {
   const { roles } = useAuthentication();
-
-  return <>{satisfiedRoles(roles, oneRole, undefined) && children}</>;
+  const result = satisfiedRoles(roles, oneRole, undefined);
+  if (result) {
+    return children;
+  } else {
+    return fallback || null;
+  }
 };
