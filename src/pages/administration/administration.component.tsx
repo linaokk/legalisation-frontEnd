@@ -4,6 +4,7 @@ import { useAdministration } from "../../hooks/administration.hook";
 
 import "./administration.style.css";
 import { Messages } from "../../constants/messages.constant";
+import { PageHeaderComponent } from "../../components/page-header/page-header.component";
 
 export const AdministrationComponent: FunctionComponent = () => {
   const { users, fetchUsers, enableClient } = useAdministration();
@@ -16,8 +17,8 @@ export const AdministrationComponent: FunctionComponent = () => {
   return (
     <>
       <NavbarComponent />
-      <h1>User administration</h1>
       <div className="container">
+        <PageHeaderComponent value="User administration" />
         <table className="table">
           <thead>
             <tr>

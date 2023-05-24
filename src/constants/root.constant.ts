@@ -5,4 +5,5 @@ export enum ROUTES {
   ADMINISTRATION = "/administration",
   MY_REQUESTS = "/myrequests",
   CREATE_NEW_REQUEST = "/addrequest",
+  EDIT_MY_ACCOUNT = "/editaccount",
 }
