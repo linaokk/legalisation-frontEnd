@@ -2,11 +2,10 @@ import { FunctionComponent, useEffect } from "react";
 import { NavbarComponent } from "../../components/navbar/navbar.component";
 import { useAdministration } from "../../hooks/administration.hook";
 
-import "./administration.style.css";
-import { Messages } from "../../constants/messages.constant";
+import "./users-administration.style.css";
 import { PageHeaderComponent } from "../../components/page-header/page-header.component";
 
-export const AdministrationComponent: FunctionComponent = () => {
+export const UsersAdministrationComponent: FunctionComponent = () => {
   const { users, fetchUsers, enableClient } = useAdministration();
 
   useEffect(() => {

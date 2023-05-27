@@ -6,7 +6,7 @@ import { SignUpComponent } from "./pages/sign-up/sign-up.component";
 
 import { LoginComponent } from "./pages/login/login.component";
 import { DashboardComponent } from "./pages/dashboard/dashboard.component";
-import { AdministrationComponent } from "./pages/administration/administration.component";
+import { UsersAdministrationComponent } from "./pages/users-administration/users-administration.component";
 import { GlobalContextProvider } from "./contexts/global.context";
 import { InitializerComponent } from "./components/initializer/initializer.component";
 import { SecuredComponent } from "./components/secured/secured.component";
@@ -19,6 +19,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { MyAccountComponent } from "./pages/my-account/my-account.component";
 import { EditAccountComponent } from "./pages/edit-account/edit-account.component";
 import { Page403Component } from "./pages/403/403.component";
+import { RequestsAdministrationComponent } from "./pages/requests-admin/requests-admin.component";
 
 const page403: JSX.Element = <Page403Component />;
 
@@ -43,7 +44,7 @@ const routers = createBrowserRouter([
   {
     path: "/myaccount",
     element: (
-      <SecuredComponent oneRole={[Role.ROLE_USER]}>
+      <SecuredComponent oneRole={[Role.ROLE_USER]} fallback={page403}>
         <MyAccountComponent />
       </SecuredComponent>
     ),
@@ -51,7 +52,7 @@ const routers = createBrowserRouter([
   {
     path: ROUTES.MY_REQUESTS,
     element: (
-      <SecuredComponent oneRole={[Role.ROLE_USER]}>
+      <SecuredComponent oneRole={[Role.ROLE_USER]} fallback={page403}>
         <MyRequestsComponent />
       </SecuredComponent>
     ),
@@ -65,10 +66,18 @@ const routers = createBrowserRouter([
     ),
   },
   {
-    path: ROUTES.ADMINISTRATION,
+    path: ROUTES.USERS_ADMIN,
     element: (
       <SecuredComponent oneRole={[Role.ROLE_ADMIN]}>
-        <AdministrationComponent />
+        <UsersAdministrationComponent />
+      </SecuredComponent>
+    ),
+  },
+  {
+    path: ROUTES.REQUESTS_ADMIN,
+    element: (
+      <SecuredComponent oneRole={[Role.ROLE_USER]}>
+        <RequestsAdministrationComponent />
       </SecuredComponent>
     ),
   },
@@ -90,13 +99,13 @@ root.render(
       position="top-right"
       autoClose={3000}
       hideProgressBar={false}
-      newestOnTop={false}
+      newestOnTop
       closeOnClick
       rtl={false}
       pauseOnFocusLoss
       draggable
       pauseOnHover
-      theme="colored"
+      theme="light"
     />
   </>
 );

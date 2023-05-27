@@ -6,15 +6,17 @@ import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../constants/root.constant";
 import { toast } from "react-toastify";
 import { Messages } from "../../constants/messages.constant";
+import { Request } from "../../models/request.model";
+import { handleOnDownload } from "../../utils/html.utils";
+import { Badge } from "react-bootstrap";
 
-interface Request {
-  document: string;
-  documentType: string;
-  description: string;
-  id: number;
-  insertedAt: string;
-  validated: boolean;
-}
+export const getBadgeByStatus = (status: string) => {
+  if (status === "INITIAL_REQUEST")
+    return <Badge bg="secondary">pending</Badge>;
+  if (status === "VALIDATED") return <Badge bg="success">validated</Badge>;
+  if (status === "REFUSED") return <Badge bg="danger">refused</Badge>;
+  return <Badge bg="success">unknown</Badge>;
+};
 
 export const MyRequestsComponent: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -33,27 +35,6 @@ export const MyRequestsComponent: FunctionComponent = () => {
 
   const handleOnCreateNewRequest = () => {
     navigate(ROUTES.CREATE_NEW_REQUEST);
-  };
-
-  const handleOnDownload = (b64File: string) => {
-    const byteCharacters = atob(b64File);
-
-    const byteNumbers = new Array(byteCharacters.length);
-    for (let i = 0; i < byteCharacters.length; i++) {
-      byteNumbers[i] = byteCharacters.charCodeAt(i);
-    }
-    const byteArray = new Uint8Array(byteNumbers);
-    const blob = new Blob([byteArray], { type: "application/pdf" });
-
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.style.display = "none";
-    a.href = url;
-    // the filename you want
-    a.download = "export.pdf";
-    document.body.appendChild(a);
-    a.click();
-    window.URL.revokeObjectURL(url);
   };
 
   return (
@@ -77,7 +58,7 @@ export const MyRequestsComponent: FunctionComponent = () => {
                   {requests.map((request) => (
                     <tr>
                       <td>{request.id}</td>
-                      <td>{request.validated ? "YES" : "NO"}</td>
+                      <td>{getBadgeByStatus(request.status)}</td>
                       <td>{request.insertedAt}</td>
                       <td>{request.description}</td>
                       <td>

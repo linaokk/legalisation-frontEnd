@@ -10,7 +10,7 @@ export const NavbarComponent: FunctionComponent = () => {
   return (
     <nav className="navigation">
       <a href={ROUTES.DASHBOARD} className="brand-name">
-        Legalisation
+        <img src={"logo.png"} style={{ width: "64px" }} />
       </a>
       <button
         className="hamburger"
@@ -45,7 +45,12 @@ export const NavbarComponent: FunctionComponent = () => {
           </li>
           <SecuredComponent oneRole={[Role.ROLE_ADMIN]}>
             <li>
-              <a href={ROUTES.ADMINISTRATION}>Administration</a>
+              <a href={ROUTES.USERS_ADMIN}>Users management</a>
+            </li>
+          </SecuredComponent>
+          <SecuredComponent oneRole={[Role.ROLE_ADMIN]}>
+            <li>
+              <a href={ROUTES.REQUESTS_ADMIN}>Request Management</a>
             </li>
           </SecuredComponent>
           <li>
