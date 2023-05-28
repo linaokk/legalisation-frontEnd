@@ -5,3 +5,6 @@ export const API_FETCH_USER_INFO = "/auth/get_user_info";
 export const API_FETCH_MY_ACCOUNT = "/auth/get_my_account";
 export const API_LOGIN = "/auth/login";
 export const API_ACTION_UPDATE_MY_ACCOUNT = "/auth/update_my_account";
+export const API_FETCH_PENDING_REQUESTS = "/admin/fetch_p_requests";
+export const API_ACTION_VALIDATE_REQUEST = "/admin/request/:requestId/validate";
+export const API_ACTION_REFUSE_REQUEST = "/admin/request/:requestId/refuse";

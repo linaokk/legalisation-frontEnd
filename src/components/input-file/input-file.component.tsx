@@ -15,7 +15,7 @@ export const InputFileComponent: FunctionComponent<InputFileComponentProps> = ({
   errors,
   key,
 }) => {
-  const { setFieldValue } = useFormikContext();
+  const { setFieldValue, values } = useFormikContext();
 
   const handleFile = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -31,7 +31,12 @@ export const InputFileComponent: FunctionComponent<InputFileComponentProps> = ({
         {label}
         {errors && <span className={styles.labelError}>: {errors}</span>}
       </div>
-      <input key={key} type="file" onChange={handleFile}></input>
+      <input
+        key={key}
+        type="file"
+        className={styles.inputFile}
+        onChange={handleFile}
+      />
     </div>
   );
 };
