@@ -1,0 +1,16 @@
+.actionsContainer {
+  display: flex;
+  gap: 10px;
+}
+
+.actionsContainer > button {
+  border-radius: 2px;
+  padding: 3px 8px;
+}
+
+.addButton {
+  width: 100%;
+  color: white;
+  background-color: black;
+  font-weight: 700;
+}

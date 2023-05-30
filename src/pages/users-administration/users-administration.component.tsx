@@ -33,7 +33,7 @@ export const UsersAdministrationComponent: FunctionComponent = () => {
 
           <tbody>
             {users.map((user) => (
-              <tr>
+              <tr key={`tr-row-${user.identityCode}`}>
                 <th scope="row">{user.username}</th>
                 <td>{user.firstname}</td>
                 <td>{user.lastname}</td>

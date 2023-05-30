@@ -15,11 +15,15 @@ import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../constants/root.constant";
 import { toast } from "react-toastify";
 import { Messages } from "../../constants/messages.constant";
+import { Camera } from "@mui/icons-material";
+import { SignatureComponent } from "../../components/signature/signature.composant";
+import { CameraComponent } from "../../components/camera/camera.component";
 
 interface FormProps {
   description: string;
   document?: File;
   documentType: string;
+  userPicture: string;
 }
 
 const documentTypes: SelectValue[] = [
@@ -38,12 +42,16 @@ const initialFormValues: FormProps = {
   description: "Je suis une description",
   document: undefined,
   documentType: "IMMATRICULATION_CNSS",
+  userPicture: "",
 };
 
 const signupSchema = Yup.object().shape({
   description: Yup.string()
     .min(2, "Too Short!")
     .max(50, "Too Long!")
+    .required("Required"),
+  userPicture: Yup.string()
+    .min(100, "Need to add a picture")
     .required("Required"),
   document: Yup.mixed<File>().test(
     "fileNeeded",
@@ -118,6 +126,14 @@ export const AddRequestComponent: FunctionComponent = () => {
                   label="Document"
                   name="document"
                   errors={errors.document}
+                />
+
+                <CameraComponent
+                  label="User picture"
+                  errors={errors.userPicture}
+                  name="userPicture"
+                  width={300}
+                  height={200}
                 />
 
                 <button type="submit">Send</button>

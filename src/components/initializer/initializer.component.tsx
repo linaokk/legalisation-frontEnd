@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect } from "react";
+import { FunctionComponent, useEffect, useLayoutEffect } from "react";
 import { useAuthentication } from "../../hooks/authentication.hook";
 import { initAxios } from "../../services/axios.service";
 
@@ -12,6 +12,8 @@ export const InitializerComponent: FunctionComponent<
   initAxios();
 
   const { token, fetchUser, clearToken } = useAuthentication();
+
+  useLayoutEffect(() => {});
 
   useEffect(() => {
     if (token)
