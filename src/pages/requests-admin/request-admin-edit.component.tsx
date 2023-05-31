@@ -9,7 +9,6 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { handleAxiosError } from "../../services/axios.service";
 import { Messages } from "../../constants/messages.constant";
-import { useNavigate } from "react-router-dom";
 import { API_ACTION_VALIDATE_REQUEST } from "../../constants/api.constant";
 
 interface RequestAdministrationEditProps {
@@ -38,8 +37,6 @@ const formSchema = Yup.object().shape({
 export const RequestAdministrationEdit: FunctionComponent<
   RequestAdministrationEditProps
 > = ({ show, toggle, request }) => {
-  const navigate = useNavigate();
-
   const initialFormValues: FormProps = {
     requestId: request.id,
   };
@@ -86,10 +83,10 @@ export const RequestAdministrationEdit: FunctionComponent<
 
               <div className={`row ${styles.userPictureContainer}`}>
                 <div className={`col-6 ${styles.leftUserPicture}`}>
-                  <img src={request.userPicture} />
+                  <img src={request.userPicture} alt="Left UserPicture" />
                 </div>
                 <div className={`col-6 ${styles.rightUserPicture}`}>
-                  <img src={request.user.userPicture} />
+                  <img src={request.user.userPicture} alt="Right UserPicture" />
                 </div>
               </div>
 

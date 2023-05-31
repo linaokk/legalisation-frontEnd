@@ -15,8 +15,6 @@ import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../constants/root.constant";
 import { toast } from "react-toastify";
 import { Messages } from "../../constants/messages.constant";
-import { Camera } from "@mui/icons-material";
-import { SignatureComponent } from "../../components/signature/signature.composant";
 import { CameraComponent } from "../../components/camera/camera.component";
 
 interface FormProps {

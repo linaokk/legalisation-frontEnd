@@ -1,7 +1,5 @@
 import {
-  Button,
   Container,
-  Form,
   Nav,
   NavDropdown,
   Navbar,
@@ -12,6 +10,8 @@ import { Link } from "react-router-dom";
 import { SecuredComponent } from "../secured/secured.component";
 import { Role } from "../../constants/role.constant";
 import styles from "./navbar.module.css";
+import { Lang } from "../../contexts/global.state";
+import { useIntl } from "../../hooks/intl.hook";
 
 const generateLink = (title: string, to: string) => {
   return (
@@ -23,6 +23,11 @@ const generateLink = (title: string, to: string) => {
 
 export const NavbarComponent = () => {
   const expand = "sm";
+
+  const { setLang } = useIntl();
+  const handleChangeLangage = (lang: Lang) => {
+    setLang(lang);
+  };
 
   return (
     <>
@@ -79,6 +84,23 @@ export const NavbarComponent = () => {
                 </SecuredComponent>
 
                 {generateLink("My account", ROUTES.SHOW_MY_ACCOUNT)}
+
+                <NavDropdown
+                  title="Langage"
+                  id={`offcanvasNavbarDropdown-expand-${expand}`}
+                  className={styles.navlink}
+                >
+                  <NavDropdown.Item
+                    onClick={() => handleChangeLangage(Lang.FRENCH)}
+                  >
+                    Francais
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    onClick={() => handleChangeLangage(Lang.ENGLISH)}
+                  >
+                    English
+                  </NavDropdown.Item>
+                </NavDropdown>
               </Nav>
             </Offcanvas.Body>
           </Navbar.Offcanvas>

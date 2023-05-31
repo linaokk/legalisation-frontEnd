@@ -104,6 +104,7 @@ root.render(
         <RouterProvider router={routers} />
       </InitializerComponent>
     </GlobalContextProvider>
+
     <ToastContainer
       position="bottom-center"
       autoClose={3000}

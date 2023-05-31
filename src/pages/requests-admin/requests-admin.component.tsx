@@ -36,6 +36,7 @@ export const RequestsAdministrationComponent = () => {
     if (show === false || requests.length === 0) {
       fetchRequests();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [show]);
 
   return (
