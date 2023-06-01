@@ -56,7 +56,7 @@ export const MyRequestsComponent: FunctionComponent = () => {
                 </thead>
                 <tbody>
                   {requests.map((request) => (
-                    <tr>
+                    <tr key={`tr-row-${request.id}`}>
                       <td>{request.id}</td>
                       <td>{getBadgeByStatus(request.status)}</td>
                       <td>{request.insertedAt}</td>

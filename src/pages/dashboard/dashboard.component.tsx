@@ -1,6 +1,7 @@
 import { FunctionComponent } from "react";
 import { NavbarComponent } from "../../components/navbar/navbar.component";
 import { PageHeaderComponent } from "../../components/page-header/page-header.component";
+import { FormattedMessage } from "react-intl";
 
 export const DashboardComponent: FunctionComponent = () => {
   return (
@@ -11,6 +12,7 @@ export const DashboardComponent: FunctionComponent = () => {
         <div className="row">
           <div className="col-sm">
             <p>
+              <FormattedMessage id="dashboard.apostille" />
               Légalisation apostille : On est souvent amené à présenter des
               documents dans d’autres pays auprès de différents organisme comme
               une entreprise, une école ou une autorité. Ces pays exigent des

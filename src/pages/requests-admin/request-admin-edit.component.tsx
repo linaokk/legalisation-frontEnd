@@ -9,14 +9,12 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { handleAxiosError } from "../../services/axios.service";
 import { Messages } from "../../constants/messages.constant";
-import { ROUTES } from "../../constants/root.constant";
-import { useNavigate } from "react-router-dom";
 import { API_ACTION_VALIDATE_REQUEST } from "../../constants/api.constant";
 
 interface RequestAdministrationEditProps {
   request: Request;
   show: boolean;
-  toogle: (_: boolean) => void;
+  toggle: (_: boolean) => void;
 }
 
 interface FormProps {
@@ -38,9 +36,7 @@ const formSchema = Yup.object().shape({
 
 export const RequestAdministrationEdit: FunctionComponent<
   RequestAdministrationEditProps
-> = ({ show, toogle, request }) => {
-  const navigate = useNavigate();
-
+> = ({ show, toggle, request }) => {
   const initialFormValues: FormProps = {
     requestId: request.id,
   };
@@ -61,13 +57,13 @@ export const RequestAdministrationEdit: FunctionComponent<
       })
       .then((res) => {
         toast.success(Messages.REQUESTE_VALIDATED);
-        toogle(false);
+        toggle(false);
       })
       .catch(handleAxiosError);
   };
 
   return (
-    <Modal show={show} onHide={() => toogle(false)}>
+    <Modal show={show} onHide={() => toggle(false)}>
       <Modal.Header closeButton>
         <Modal.Title>Request validation</Modal.Title>
       </Modal.Header>
@@ -85,6 +81,15 @@ export const RequestAdministrationEdit: FunctionComponent<
                 errors={errors.document}
               />
 
+              <div className={`row ${styles.userPictureContainer}`}>
+                <div className={`col-6 ${styles.leftUserPicture}`}>
+                  <img src={request.userPicture} alt="Left UserPicture" />
+                </div>
+                <div className={`col-6 ${styles.rightUserPicture}`}>
+                  <img src={request.user.userPicture} alt="Right UserPicture" />
+                </div>
+              </div>
+
               <Button
                 variant="dark"
                 type="submit"
@@ -97,7 +102,7 @@ export const RequestAdministrationEdit: FunctionComponent<
         </Formik>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={() => toogle(false)}>
+        <Button variant="secondary" onClick={() => toggle(false)}>
           Close
         </Button>
       </Modal.Footer>

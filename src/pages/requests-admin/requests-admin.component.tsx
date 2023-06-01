@@ -15,7 +15,7 @@ import {
 export const RequestsAdministrationComponent = () => {
   const [requests, setRequests] = useState<Request[]>([]);
   const [request, setRequest] = useState<Request>();
-  const [show, toogle] = useState<boolean>(true);
+  const [show, toggle] = useState<boolean>(true);
 
   const handleOnRefuse = (requestId: number) => {
     const url = API_ACTION_REFUSE_REQUEST.replace(
@@ -36,6 +36,7 @@ export const RequestsAdministrationComponent = () => {
     if (show === false || requests.length === 0) {
       fetchRequests();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [show]);
 
   return (
@@ -46,7 +47,7 @@ export const RequestsAdministrationComponent = () => {
         {request && (
           <RequestAdministrationEdit
             show={show}
-            toogle={toogle}
+            toggle={toggle}
             request={request}
           />
         )}
@@ -63,7 +64,7 @@ export const RequestsAdministrationComponent = () => {
           </thead>
           <tbody>
             {requests.map((request) => (
-              <tr>
+              <tr key={`tr-row-${request.id}`}>
                 <td>{request.id}</td>
                 <td>{request.insertedAt}</td>
                 <td>{request.user.identityCode}</td>
@@ -81,7 +82,7 @@ export const RequestsAdministrationComponent = () => {
                       className="btn btn-success"
                       onClick={() => {
                         setRequest(request);
-                        toogle(true);
+                        toggle(true);
                       }}
                     >
                       Validate

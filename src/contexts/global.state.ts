@@ -14,4 +14,13 @@ export interface GlobalContextState {
     setToken: (_: string) => void;
     clearToken: () => void;
   };
+  intl: {
+    setLang: (_: Lang) => void;
+    lang: Lang;
+  };
+}
+
+export enum Lang {
+  FRENCH = "fr",
+  ENGLISH = "en",
 }

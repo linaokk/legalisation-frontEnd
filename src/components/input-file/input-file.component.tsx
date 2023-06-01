@@ -15,7 +15,7 @@ export const InputFileComponent: FunctionComponent<InputFileComponentProps> = ({
   errors,
   key,
 }) => {
-  const { setFieldValue, values } = useFormikContext();
+  const { setFieldValue } = useFormikContext();
 
   const handleFile = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;

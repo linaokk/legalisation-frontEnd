@@ -20,6 +20,7 @@ import { MyAccountComponent } from "./pages/my-account/my-account.component";
 import { EditAccountComponent } from "./pages/edit-account/edit-account.component";
 import { Page403Component } from "./pages/403/403.component";
 import { RequestsAdministrationComponent } from "./pages/requests-admin/requests-admin.component";
+import { ShowAdminsComponent } from "./pages/show-admins/show-admins.component";
 
 const page403: JSX.Element = <Page403Component />;
 
@@ -66,6 +67,14 @@ const routers = createBrowserRouter([
     ),
   },
   {
+    path: ROUTES.SHOW_ADMINS,
+    element: (
+      <SecuredComponent oneRole={[Role.ROLE_SUPER_ADMIN]}>
+        <ShowAdminsComponent />
+      </SecuredComponent>
+    ),
+  },
+  {
     path: ROUTES.USERS_ADMIN,
     element: (
       <SecuredComponent oneRole={[Role.ROLE_ADMIN]}>
@@ -95,8 +104,9 @@ root.render(
         <RouterProvider router={routers} />
       </InitializerComponent>
     </GlobalContextProvider>
+
     <ToastContainer
-      position="top-right"
+      position="bottom-center"
       autoClose={3000}
       hideProgressBar={false}
       newestOnTop
