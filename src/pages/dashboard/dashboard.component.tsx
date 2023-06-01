@@ -1,39 +1,35 @@
 import { FunctionComponent } from "react";
 import { NavbarComponent } from "../../components/navbar/navbar.component";
 import { PageHeaderComponent } from "../../components/page-header/page-header.component";
-import { FormattedMessage } from "react-intl";
-
+import {
+  FormattedMessage,
+  IntlContext,
+  MessageDescriptor,
+  useIntl,
+} from "react-intl";
 export const DashboardComponent: FunctionComponent = () => {
+  const { formatMessage } = useIntl();
+
   return (
     <>
       <NavbarComponent />
       <div className="container">
-        <PageHeaderComponent value="Legalisation page" />
+        <PageHeaderComponent value={formatMessage({ id: "dashboard.title" })} />
         <div className="row">
           <div className="col-sm">
             <p>
-              <FormattedMessage id="dashboard.apostille" />
-              Légalisation apostille : On est souvent amené à présenter des
-              documents dans d’autres pays auprès de différents organisme comme
-              une entreprise, une école ou une autorité. Ces pays exigent des
-              garanties quant à l’authenticité et la conformité de ces
-              documents. L’authentification des signatures et des tampons passe
-              obligatoirement par :
+              <FormattedMessage id="dashboard.description" />
             </p>
 
             <ul>
               <li>
-                Apostille : une formalité nommée apostille (dans le cas des pays
-                faisant partie de la convention de la Haye).
+                <FormattedMessage id="dashboard.apostille" />
               </li>
               <li>
-                Légalisation : une autre procédure auprès du ministre des
-                affaires étrangères et ensuite auprès des services consulaires
-                des ambassades des pays destinataires des documents.
+                <FormattedMessage id="dashboard.legalisation" />
               </li>
               <li>
-                Légalisation Apostille : une dispense de toute démarche de
-                légalisation apostille.
+                <FormattedMessage id="dashboard.legalisation_apostille" />
               </li>
             </ul>
           </div>

@@ -8,3 +8,10 @@ export const API_ACTION_UPDATE_MY_ACCOUNT = "/auth/update_my_account";
 export const API_FETCH_PENDING_REQUESTS = "/admin/fetch_p_requests";
 export const API_ACTION_VALIDATE_REQUEST = "/admin/request/:requestId/validate";
 export const API_ACTION_REFUSE_REQUEST = "/admin/request/:requestId/refuse";
+export const API_FETCH_ADMINS = "/super_admin/fetch_admins";
+export const API_ACTION_SUPERADMIN_ENABLE_ADMIN =
+  "/super_admin/enable_admin/:identityCode";
+export const API_ACTION_SUPERADMIN_DISABLE_ADMIN =
+  "/super_admin/disable_admin/:identityCode";
+
+export const API_ACTION_SUPERADMIN_ADD_ADMIN = "/super_admin/add_admin";

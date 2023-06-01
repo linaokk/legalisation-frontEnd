@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { GlobalContext } from "../contexts/global.context";
 import { messages } from "../intl/intl.index";
 
-export const useIntl = () => {
+export const useLang = () => {
   const context = useContext(GlobalContext);
   if (!context)
     throw new Error(
