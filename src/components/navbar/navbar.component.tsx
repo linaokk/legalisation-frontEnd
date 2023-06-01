@@ -11,7 +11,8 @@ import { SecuredComponent } from "../secured/secured.component";
 import { Role } from "../../constants/role.constant";
 import styles from "./navbar.module.css";
 import { Lang } from "../../contexts/global.state";
-import { useIntl } from "../../hooks/intl.hook";
+import { FormattedMessage, useIntl } from "react-intl";
+import { useLang } from "../../hooks/lang.hook";
 
 const generateLink = (title: string, to: string) => {
   return (
@@ -22,9 +23,11 @@ const generateLink = (title: string, to: string) => {
 };
 
 export const NavbarComponent = () => {
-  const expand = "sm";
+  const expand = "lg";
 
-  const { setLang } = useIntl();
+  const { formatMessage } = useIntl();
+  const { setLang } = useLang();
+
   const handleChangeLangage = (lang: Lang) => {
     setLang(lang);
   };
@@ -38,7 +41,10 @@ export const NavbarComponent = () => {
         expand={expand}
       >
         <Container fluid>
-          {generateLink("Legalisation", ROUTES.DASHBOARD)}
+          {generateLink(
+            formatMessage({ id: "navbar.brand" }),
+            ROUTES.DASHBOARD
+          )}
 
           <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
           <Navbar.Offcanvas
@@ -48,7 +54,7 @@ export const NavbarComponent = () => {
           >
             <Offcanvas.Header closeButton>
               <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-                Legalisation
+                <FormattedMessage id="navbar.brand" />
               </Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>

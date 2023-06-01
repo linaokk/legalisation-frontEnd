@@ -15,9 +15,9 @@
   margin-top: 10px;
 }
 
-.editAccount {
-  margin-top: 5px;
-  font-weight: 600;
-  background-color: #353535;
-  color: white;
+.actions {
+  margin-top: 10px;
+}
+.actions > button {
+  border-radius: 1px;
 }

@@ -2,7 +2,7 @@ import { FunctionComponent, useEffect, useLayoutEffect } from "react";
 import { useAuthentication } from "../../hooks/authentication.hook";
 import { initAxios } from "../../services/axios.service";
 import { IntlProvider } from "react-intl";
-import { useIntl } from "../../hooks/intl.hook";
+import { useLang } from "../../hooks/lang.hook";
 
 interface InitializerComponentProps {
   children: JSX.Element;
@@ -13,7 +13,7 @@ export const InitializerComponent: FunctionComponent<
 > = ({ children }) => {
   initAxios();
   const { token, fetchUser, clearToken, user } = useAuthentication();
-  const { lang, messages } = useIntl();
+  const { lang, messages } = useLang();
 
   useLayoutEffect(() => {});
 

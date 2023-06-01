@@ -7,6 +7,9 @@ import { Client } from "../../models/client.model";
 import styles from "./my-account.module.css";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../constants/root.constant";
+import { FormattedMessage } from "react-intl";
+import { Button } from "react-bootstrap";
+import { useAuthentication } from "../../hooks/authentication.hook";
 
 const GetSubPart = (title: string, value: any) => {
   return (
@@ -21,7 +24,7 @@ export const MyAccountComponent: FunctionComponent = () => {
   const [client, setClient] = useState<Client>();
 
   const navigate = useNavigate();
-
+  const { clearToken } = useAuthentication();
   useEffect(() => {
     axios
       .get<Client>("/auth/get_my_account")
@@ -33,6 +36,11 @@ export const MyAccountComponent: FunctionComponent = () => {
 
   const handleOnEditAccount = () => {
     navigate(ROUTES.EDIT_MY_ACCOUNT);
+  };
+
+  const handleOnLogout = () => {
+    clearToken();
+    navigate(ROUTES.ROOT_LOGIN);
   };
 
   return (
@@ -50,13 +58,17 @@ export const MyAccountComponent: FunctionComponent = () => {
           {GetSubPart("Phone number", client?.phoneNumber)}
           {GetSubPart("Sexe", client?.sexe)}
 
-          <div className="row">
-            <button
-              className={styles.editAccount}
+          <div className={`row ${styles.actions}`}>
+            <Button
+              variant="dark"
+              className="col-6"
               onClick={handleOnEditAccount}
             >
-              Edit my account
-            </button>
+              <FormattedMessage id="common.edit" />
+            </Button>
+            <Button variant="danger" className="col-6" onClick={handleOnLogout}>
+              <FormattedMessage id="common.logout" />
+            </Button>
           </div>
         </div>
       </div>

@@ -7,6 +7,7 @@ import { useAuthentication } from "../../hooks/authentication.hook";
 import { ROUTES } from "../../constants/root.constant";
 import { handleAxiosError } from "../../services/axios.service";
 import { API_LOGIN } from "../../constants/api.constant";
+import { FormattedMessage } from "react-intl";
 
 export const LoginComponent: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -55,6 +56,15 @@ export const LoginComponent: FunctionComponent = () => {
       <div className="login-actions">
         <button onClick={loginHandler} type="submit">
           login
+        </button>
+        <button
+          onClick={() => {
+            if (!passwordRef.current || !usernameRef.current) return;
+            usernameRef.current.value = "superadmin";
+            passwordRef.current.value = "superadmin";
+          }}
+        >
+          <FormattedMessage id="login.button.superadmin" />
         </button>
         <button
           onClick={() => {
