@@ -1,21 +1,30 @@
 import { FunctionComponent, useRef, useState } from "react";
 import { Layer, Line, Stage } from "react-konva";
-import { useNavigate } from "react-router-dom";
-import "./home.style.css";
-import { ROOT_SIGNUP } from "../../constants/root.constant";
+import styles from "./signature.module.css";
+import { useFormikContext } from "formik";
 
-export const HomeComponent: FunctionComponent = () => {
-  const navigate = useNavigate();
+interface SignatureComponentProps {
+  height: number;
+  width: number;
+  label: string;
+  errors?: string;
+  name: string;
+}
 
-  const [tool] = useState("pen");
-  const [lines, setLines] = useState<any[]>([]);
+export const SignatureComponent: FunctionComponent<SignatureComponentProps> = ({
+  height,
+  label,
+  width,
+  errors,
+  name,
+}) => {
   const isDrawing = useRef<boolean>(false);
+  const { setFieldValue } = useFormikContext();
+  const [lines, setLines] = useState<any[]>([]);
+  const [tool] = useState("pen");
   const stageRef = useRef<any>();
-
-  const handleMouseDown = (e: any) => {
-    isDrawing.current = true;
-    const pos = e.target.getStage().getPointerPosition();
-    setLines([...lines, { tool, points: [pos.x, pos.y] }]);
+  const handleMouseUp = () => {
+    isDrawing.current = false;
   };
 
   const handleMouseMove = (e: any) => {
@@ -34,39 +43,32 @@ export const HomeComponent: FunctionComponent = () => {
     setLines(lines.concat());
   };
 
-  const handleMouseUp = () => {
-    isDrawing.current = false;
-  };
-
-  const handleExport = () => {
+  const handleMouseDown = (e: any) => {
+    isDrawing.current = true;
+    const pos = e.target.getStage().getPointerPosition();
+    setLines([...lines, { tool, points: [pos.x, pos.y] }]);
     if (!stageRef || !stageRef.current) return;
     const uri = stageRef.current.toDataURL();
-    console.log(uri);
-    // we also can save uri as file
-    // but in the demo on Konva website it will not work
-    // because of iframe restrictions
-    // but feel free to use it in your apps:
-    // downloadURI(uri, 'stage.png');
+    setFieldValue(name, uri);
+  };
+
+  const handleOnReset = () => {
+    setLines([]);
   };
 
   return (
-    <>
-      bienvenue flapage
-      <button
-        onClick={() => {
-          navigate(ROOT_SIGNUP);
-          handleExport();
-        }}
-      >
-        sinscrire
-      </button>
+    <div className={styles.signatureWowo}>
+      <div>
+        {label}
+        {errors && <span className={styles.errorMessage}>: {errors}</span>}
+      </div>
       <Stage
-        width={200}
-        height={100}
+        width={width}
+        height={height}
         onMouseDown={handleMouseDown}
         onMousemove={handleMouseMove}
         onMouseup={handleMouseUp}
-        className="stage-container"
+        className={styles.stageContainer}
         ref={stageRef}
       >
         <Layer>
@@ -84,6 +86,7 @@ export const HomeComponent: FunctionComponent = () => {
           ))}
         </Layer>
       </Stage>
-    </>
+      <button onClick={handleOnReset}>reset</button>
+    </div>
   );
 };

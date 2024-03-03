@@ -1,56 +1,117 @@
-import { FunctionComponent, useState } from "react";
+import {
+  Container,
+  Nav,
+  NavDropdown,
+  Navbar,
+  Offcanvas,
+} from "react-bootstrap";
+import { ROUTES } from "../../constants/root.constant";
+import { Link } from "react-router-dom";
 import { SecuredComponent } from "../secured/secured.component";
-import "./navbar.style.css";
+import { Role } from "../../constants/role.constant";
+import styles from "./navbar.module.css";
+import { Lang } from "../../contexts/global.state";
+import { FormattedMessage, useIntl } from "react-intl";
+import { useLang } from "../../hooks/lang.hook";
 
-export const NavbarComponent: FunctionComponent = () => {
-  const [isNavExpanded, setIsNavExpanded] = useState(false);
+const generateLink = (title: string, to: string) => {
+  return (
+    <Link className={`nav-link ${styles.navlink}`} to={to}>
+      {title}
+    </Link>
+  );
+};
+
+export const NavbarComponent = () => {
+  const expand = "lg";
+
+  const { formatMessage } = useIntl();
+  const { setLang } = useLang();
+
+  const handleChangeLangage = (lang: Lang) => {
+    setLang(lang);
+  };
 
   return (
-    <nav className="navigation">
-      <a href="/" className="brand-name">
-        Legalisation
-      </a>
-      <button
-        className="hamburger"
-        onClick={() => {
-          setIsNavExpanded(!isNavExpanded);
-        }}
+    <>
+      <Navbar
+        className={`mb-3 ${styles.navbar}`}
+        key={expand}
+        bg="light"
+        expand={expand}
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-5 w-5"
-          viewBox="0 0 20 20"
-          fill="white"
-        >
-          <path
-            fillRule="evenodd"
-            d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM9 15a1 1 0 011-1h6a1 1 0 110 2h-6a1 1 0 01-1-1z"
-            clipRule="evenodd"
-          />
-        </svg>
-      </button>
-      <div
-        className={
-          isNavExpanded ? "navigation-menu expanded" : "navigation-menu"
-        }
-      >
-        <ul>
-          <li>
-            <a href="/home">Home</a>
-          </li>
-          <li>
-            <a href="/requests">My requests</a>
-          </li>
-          <SecuredComponent oneRole={["ROLE_ADMIN"]}>
-            <li>
-              <a href="/administration">Administration</a>
-            </li>
-          </SecuredComponent>
-          <li>
-            <a href="/myaccount">My account</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
+        <Container fluid>
+          {generateLink(
+            formatMessage({ id: "navbar.brand" }),
+            ROUTES.DASHBOARD
+          )}
+
+          <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
+          <Navbar.Offcanvas
+            id={`offcanvasNavbar-expand-${expand}`}
+            aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
+            placement="end"
+          >
+            <Offcanvas.Header closeButton>
+              <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
+                <FormattedMessage id="navbar.brand" />
+              </Offcanvas.Title>
+            </Offcanvas.Header>
+            <Offcanvas.Body>
+              <Nav className="justify-content-end flex-grow-1 pe-3">
+                {generateLink("Home", ROUTES.DASHBOARD)}
+                {generateLink("My request", ROUTES.MY_REQUESTS)}
+
+                <SecuredComponent oneRole={[Role.ROLE_ADMIN]}>
+                  <NavDropdown
+                    title="Administration"
+                    id={`offcanvasNavbarDropdown-expand-${expand}`}
+                    className={styles.navlink}
+                  >
+                    <Link className="dropdown-item" to={ROUTES.USERS_ADMIN}>
+                      Users management
+                    </Link>
+                    <Link className="dropdown-item" to={ROUTES.REQUESTS_ADMIN}>
+                      Request Management
+                    </Link>
+                  </NavDropdown>
+                </SecuredComponent>
+
+                <SecuredComponent oneRole={[Role.ROLE_SUPER_ADMIN]}>
+                  <NavDropdown
+                    title="Super admin"
+                    id={`offcanvasNavbarDropdown-expand-${expand}`}
+                    className={styles.navlink}
+                  >
+                    <Link className="dropdown-item" to={ROUTES.SHOW_ADMINS}>
+                      Admin management
+                    </Link>
+                  </NavDropdown>
+                </SecuredComponent>
+
+                {generateLink("My account", ROUTES.SHOW_MY_ACCOUNT)}
+
+                <NavDropdown
+                  title="Langage"
+                  id={`offcanvasNavbarDropdown-expand-${expand}`}
+                  className={styles.navlink}
+                >
+                  <NavDropdown.Item
+                    onClick={() => handleChangeLangage(Lang.FRENCH)}
+                  >
+                    Francais
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    onClick={() => handleChangeLangage(Lang.ENGLISH)}
+                  >
+                    English
+                  </NavDropdown.Item>
+                </NavDropdown>
+              </Nav>
+            </Offcanvas.Body>
+          </Navbar.Offcanvas>
+        </Container>
+      </Navbar>
+    </>
   );
 };

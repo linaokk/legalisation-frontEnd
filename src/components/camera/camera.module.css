@@ -1,0 +1,12 @@
+.cameraWowo {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+  padding: 10px;
+  border: 1px black solid;
+}
+
+.errorMessage {
+  color: red;
+}

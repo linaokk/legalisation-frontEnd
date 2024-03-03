@@ -8,11 +8,11 @@ export const useAuthentication = () => {
   const context = useContext(GlobalContext);
   if (!context)
     throw new Error(
-      "No context found,  LoginComponent has to be construct within GlobalContextProvider"
+      "No context found, LoginComponent has to be construct within GlobalContextProvider"
     );
 
   const {
-    auth: { setToken, token, setUser, setRoles, roles },
+    auth: { setToken, token, setUser, setRoles, roles, clearToken, user },
   } = context;
 
   const fetchUser = () => {
@@ -29,5 +29,5 @@ export const useAuthentication = () => {
       });
   };
 
-  return { setToken, token, fetchUser, roles };
+  return { setToken, token, fetchUser, roles, clearToken, user };
 };

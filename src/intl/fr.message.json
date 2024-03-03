@@ -1,0 +1,9 @@
+{
+  "dashboard" : {
+    "title": "Page de légalisation",
+    "description": "Légalisation apostille : On est souvent amené à présenter des documents dans d’autres pays auprès de différents organisme comme une entreprise, une école ou une autorité. Ces pays exigent des garanties quant à l’authenticité et la conformité de ces documents. L’authentification des signatures et des tampons passe obligatoirement par :",
+    "apostille": "Apostille : une formalité nommée apostille (dans le cas des pays faisant partie de la convention de la Haye).",
+    "legalisation": "Légalisation : une autre procédure auprès du ministre des affaires étrangères et ensuite auprès des services consulaires des ambassades des pays destinataires des documents.",
+    "legalisation_apostille": "Légalisation Apostille : une dispense de toute démarche de légalisation apostille."
+  }
+}

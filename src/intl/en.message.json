@@ -1,0 +1,33 @@
+{
+  "navbar": {
+    "brand": "Legalisation",
+    "home": "Home",
+    "myrequest": "My request",
+    "administration": {
+      "title": "Administration",
+      "users": "Users management",
+      "requests": "Requests Management"
+    },
+    "myaccount": "My account",
+    "langage": "Langage"
+  },
+  "login": {
+    "button": {
+      "superadmin": "Set SuperAdmin"
+    }
+  },
+  "dashboard" : {
+    "title": "Legalisation page",
+    "description": "Apostille legalization: We are often required to present documents in other countries to different organizations such as a company, a school or an authority. These countries require guarantees as to the authenticity and conformity of these documents. Authentication of signatures and stamps necessarily involves:",
+    "apostille": "Apostille: a formality called apostille (in the case of countries that are part of the Hague Convention).",
+    "legalisation": "Legalization: another procedure with the Minister of Foreign Affairs and then with the consular services of the embassies of the countries receiving the documents.",
+    "legalisation_apostille": "Apostille legalization: an exemption from any apostille legalization process."
+  },
+  "common": {
+    "save": "Save",
+    "add": "Add",
+    "edit": "Edit",
+    "activate": "Activate",
+    "disable": "Disable"
+  }
+}

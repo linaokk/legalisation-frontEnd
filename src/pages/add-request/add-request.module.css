@@ -1,0 +1,12 @@
+.addRequestContainer {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.addRequestContainer > button:last-child {
+  background-color: #302e2e;
+  color: white;
+  font-weight: 700;
+}

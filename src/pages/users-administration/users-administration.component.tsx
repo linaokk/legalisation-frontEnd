@@ -1,21 +1,23 @@
 import { FunctionComponent, useEffect } from "react";
 import { NavbarComponent } from "../../components/navbar/navbar.component";
 import { useAdministration } from "../../hooks/administration.hook";
-import "./administration.style.css";
 
-export const AdministrationComponent: FunctionComponent = () => {
+import "./users-administration.style.css";
+import { PageHeaderComponent } from "../../components/page-header/page-header.component";
+
+export const UsersAdministrationComponent: FunctionComponent = () => {
   const { users, fetchUsers, enableClient } = useAdministration();
 
   useEffect(() => {
-    console.info("Je veux affficher qu'une fois ce msg");
     fetchUsers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
       <NavbarComponent />
-      <h1>User administration</h1>
       <div className="container">
+        <PageHeaderComponent value="User administration" />
         <table className="table">
           <thead>
             <tr>
@@ -31,7 +33,7 @@ export const AdministrationComponent: FunctionComponent = () => {
 
           <tbody>
             {users.map((user) => (
-              <tr>
+              <tr key={`tr-row-${user.identityCode}`}>
                 <th scope="row">{user.username}</th>
                 <td>{user.firstname}</td>
                 <td>{user.lastname}</td>

@@ -1,0 +1,17 @@
+.stageContainer {
+  border: 1px solid black;
+  width: fit-content;
+}
+
+.errorMessage {
+  color: red;
+}
+
+.signatureWowo {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+  padding: 10px;
+  border: 1px black solid;
+}

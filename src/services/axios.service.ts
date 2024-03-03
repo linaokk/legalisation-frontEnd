@@ -1,4 +1,6 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+import { toast } from "react-toastify";
+import { ErrorMessage } from "../models/web-service.model";
 
 export const initAxios = () => {
   axios.defaults.baseURL = process.env.REACT_APP_WS_HOST;
@@ -20,4 +22,12 @@ export const initAxios = () => {
     }
   );
   */
+};
+
+export const handleAxiosError = (err: AxiosError<ErrorMessage>) => {
+  const response = err.response;
+  if (!err.response?.data)
+    return toast.error("An error occurs while calling the WS");
+
+  toast.error(response?.data.message);
 };

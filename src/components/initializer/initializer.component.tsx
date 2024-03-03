@@ -1,6 +1,8 @@
-import { FunctionComponent, useEffect } from "react";
+import { FunctionComponent, useEffect, useLayoutEffect } from "react";
 import { useAuthentication } from "../../hooks/authentication.hook";
 import { initAxios } from "../../services/axios.service";
+import { IntlProvider } from "react-intl";
+import { useLang } from "../../hooks/lang.hook";
 
 interface InitializerComponentProps {
   children: JSX.Element;
@@ -10,14 +12,23 @@ export const InitializerComponent: FunctionComponent<
   InitializerComponentProps
 > = ({ children }) => {
   initAxios();
+  const { token, fetchUser, clearToken, user } = useAuthentication();
+  const { lang, messages } = useLang();
 
-  const { token, fetchUser } = useAuthentication();
+  useLayoutEffect(() => {});
 
   useEffect(() => {
-    if (token) fetchUser();
+    if (token && !user)
+      fetchUser().catch((err) => {
+        clearToken();
+      });
 
     // eslint-disable-next-line
   }, [token]);
 
-  return <>{children}</>;
+  return (
+    <IntlProvider locale={lang} messages={messages}>
+      {children}
+    </IntlProvider>
+  );
 };

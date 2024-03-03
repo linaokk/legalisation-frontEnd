@@ -1,28 +1,33 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { SignUpComponent } from "./pages/sign-up/sign-up.component";
-import { HomeComponent } from "./pages/home/home.component";
-import {
-  ADMINISTRATION,
-  DASHBOARD,
-  ROOT_LOGIN,
-  ROOT_SIGNUP,
-} from "./constants/root.constant";
+
 import { LoginComponent } from "./pages/login/login.component";
 import { DashboardComponent } from "./pages/dashboard/dashboard.component";
-import { AdministrationComponent } from "./pages/administration/administration.component";
+import { UsersAdministrationComponent } from "./pages/users-administration/users-administration.component";
 import { GlobalContextProvider } from "./contexts/global.context";
 import { InitializerComponent } from "./components/initializer/initializer.component";
 import { SecuredComponent } from "./components/secured/secured.component";
 import { Role } from "./constants/role.constant";
+import { MyRequestsComponent } from "./pages/my-requests/my-requests.component";
+import { ROUTES } from "./constants/root.constant";
+import { AddRequestComponent } from "./pages/add-request/add-request.component";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { MyAccountComponent } from "./pages/my-account/my-account.component";
+import { EditAccountComponent } from "./pages/edit-account/edit-account.component";
+import { Page403Component } from "./pages/403/403.component";
+import { RequestsAdministrationComponent } from "./pages/requests-admin/requests-admin.component";
+import { ShowAdminsComponent } from "./pages/show-admins/show-admins.component";
+
+const page403: JSX.Element = <Page403Component />;
 
 const routers = createBrowserRouter([
-  { path: ROOT_SIGNUP, element: <SignUpComponent /> },
+  { path: ROUTES.ROOT_SIGNUP, element: <SignUpComponent /> },
   {
-    path: DASHBOARD,
+    path: ROUTES.DASHBOARD,
     element: (
       <SecuredComponent oneRole={[Role.ROLE_USER]}>
         <DashboardComponent />
@@ -30,15 +35,62 @@ const routers = createBrowserRouter([
     ),
   },
   {
-    path: ADMINISTRATION,
+    path: ROUTES.EDIT_MY_ACCOUNT,
     element: (
-      <SecuredComponent oneRole={[Role.ROLE_ADMIN]}>
-        <AdministrationComponent />
+      <SecuredComponent oneRole={[Role.ROLE_USER]} fallback={page403}>
+        <EditAccountComponent />
       </SecuredComponent>
     ),
   },
-  { path: ROOT_LOGIN, element: <LoginComponent /> },
-  { path: "/", element: <HomeComponent /> },
+  {
+    path: "/myaccount",
+    element: (
+      <SecuredComponent oneRole={[Role.ROLE_USER]} fallback={page403}>
+        <MyAccountComponent />
+      </SecuredComponent>
+    ),
+  },
+  {
+    path: ROUTES.MY_REQUESTS,
+    element: (
+      <SecuredComponent oneRole={[Role.ROLE_USER]} fallback={page403}>
+        <MyRequestsComponent />
+      </SecuredComponent>
+    ),
+  },
+  {
+    path: ROUTES.CREATE_NEW_REQUEST,
+    element: (
+      <SecuredComponent oneRole={[Role.ROLE_USER]}>
+        <AddRequestComponent />
+      </SecuredComponent>
+    ),
+  },
+  {
+    path: ROUTES.SHOW_ADMINS,
+    element: (
+      <SecuredComponent oneRole={[Role.ROLE_SUPER_ADMIN]}>
+        <ShowAdminsComponent />
+      </SecuredComponent>
+    ),
+  },
+  {
+    path: ROUTES.USERS_ADMIN,
+    element: (
+      <SecuredComponent oneRole={[Role.ROLE_ADMIN]}>
+        <UsersAdministrationComponent />
+      </SecuredComponent>
+    ),
+  },
+  {
+    path: ROUTES.REQUESTS_ADMIN,
+    element: (
+      <SecuredComponent oneRole={[Role.ROLE_USER]}>
+        <RequestsAdministrationComponent />
+      </SecuredComponent>
+    ),
+  },
+  { path: ROUTES.ROOT_LOGIN, element: <LoginComponent /> },
 ]);
 
 const root = ReactDOM.createRoot(
@@ -46,11 +98,26 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <GlobalContextProvider>
-    <InitializerComponent>
-      <RouterProvider router={routers} />
-    </InitializerComponent>
-  </GlobalContextProvider>
+  <>
+    <GlobalContextProvider>
+      <InitializerComponent>
+        <RouterProvider router={routers} />
+      </InitializerComponent>
+    </GlobalContextProvider>
+
+    <ToastContainer
+      position="bottom-center"
+      autoClose={3000}
+      hideProgressBar={false}
+      newestOnTop
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="light"
+    />
+  </>
 );
 
 // If you want to start measuring performance in your app, pass a function
